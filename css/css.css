@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+}
+
+.icon {
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    filter: var(--icon-color);
+    user-select: none;
+    -webkit-user-drag: none;
+}
