@@ -24,3 +24,19 @@
 .icon-m > .icon {
     @apply h-6 w-6 top-1 left-1;
 }
+
+#translators {
+    @apply flex gap-2 flex-col;
+}
+
+e-translator {
+    @apply flex gap-2 p-2;
+}
+
+e-translator > div:nth-child(1) {
+    @apply flex shadow-md p-2 rounded-lg w-fit;
+}
+
+e-translator > div:nth-child(2) {
+    @apply flex gap-2 flex-col;
+}
