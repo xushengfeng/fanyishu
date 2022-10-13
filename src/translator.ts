@@ -3,8 +3,6 @@ import "../css/css.css";
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
 var text = s.get("text") || "";
-var fl = "";
-var tl = "";
 var mode = s.get("m") || "";
 
 var api_id = JSON.parse(localStorage.getItem("fanyi"));
@@ -43,10 +41,8 @@ document.querySelector("textarea").value = text || "";
 
 document.querySelector("textarea").oninput = () => {
     text = document.querySelector("textarea").value;
-    translate(text, fl, tl);
+    translate(text);
 };
-
-translate(text, fl, tl);
 
 let o = {
     youdao: { t: "有道", f: youdao },
@@ -55,6 +51,24 @@ let o = {
     caiyun: { t: "彩云", f: caiyun },
     bing: { t: "必应", f: bing },
 };
+
+type item_type = { id: string; e: string; from: string; to: string; children?: item_type[] };
+
+let trees: { [id: string]: item_type[] } = JSON.parse(localStorage.getItem("trees"));
+if (!trees) {
+    trees = { 默认: [{ id: "a", e: "caiyun", from: "cn", to: "en" }] };
+}
+let tree: item_type[] = trees[mode] || trees.默认;
+
+function render_tree(tree: item_type[], pel: HTMLElement) {
+    for (let i of tree) {
+        let t = document.createElement("e-translator") as item;
+        t.id = i.id;
+        pel.append(t);
+        if (i.children) t.子翻译器 = i.children;
+        t.e = i.e;
+    }
+}
 
 class item extends HTMLElement {
     constructor() {
@@ -65,6 +79,7 @@ class item extends HTMLElement {
     t: HTMLElement;
     from: HTMLElement;
     to: HTMLElement;
+    c: HTMLElement;
 
     connectedCallback() {
         var bar = document.createElement("div");
@@ -73,6 +88,9 @@ class item extends HTMLElement {
         this.to = document.createElement("div");
         this.append(bar);
         bar.append(this.t, this.from, this.to);
+
+        this.c = document.createElement("div");
+        this.append(this.c);
 
         let t_list = document.createElement("select");
         for (let i in o) {
@@ -88,15 +106,31 @@ class item extends HTMLElement {
         let f = o[this.t.querySelector("select").value].f;
         f(t, "", "");
     }
+
+    set e(t: string) {
+        this.t.querySelector("select").value = t;
+    }
+
+    set 子翻译器(tree: item_type[]) {
+        render_tree(tree, this.c);
+    }
 }
 
 window.customElements.define("e-translator", item);
 
-function translate(text: string, from: string, to: string) {
-    baidu(text, from, to);
-    // youdao(text, from, to);
-    caiyun(text, from, to);
+function get_item(id: string) {
+    return document.getElementById(id) as item;
 }
+
+function translate(text: string) {
+    for (let i of tree) {
+        get_item(i.id).text = text;
+    }
+}
+
+render_tree(tree, document.getElementById("translators"));
+
+translate(text);
 
 function youdao(text: string, from: string, to: string) {
     fetch(`http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=${encodeURIComponent(text)}`, {
