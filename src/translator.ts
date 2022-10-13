@@ -26,6 +26,50 @@ document.querySelector("textarea").oninput = () => {
 
 translate(text, fl, tl);
 
+let o = {
+    youdao: { t: "有道", f: youdao },
+    baidu: { t: "百度", f: baidu },
+    deepl: { t: "Deepl", f: deepl },
+    caiyun: { t: "彩云", f: caiyun },
+    bing: { t: "必应", f: bing },
+};
+
+class item extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    _value = "";
+    t: HTMLElement;
+    from: HTMLElement;
+    to: HTMLElement;
+
+    connectedCallback() {
+        var bar = document.createElement("div");
+        this.t = document.createElement("div");
+        this.from = document.createElement("div");
+        this.to = document.createElement("div");
+        this.append(bar);
+        bar.append(this.t, this.from, this.to);
+
+        let t_list = document.createElement("select");
+        for (let i in o) {
+            let op = document.createElement("option");
+            op.innerText = o[i].t;
+            op.value = i;
+            t_list.append(op);
+        }
+        this.t.append(t_list);
+    }
+
+    set text(t: string) {
+        let f = o[this.t.querySelector("select").value].f;
+        f(t, "", "");
+    }
+}
+
+window.customElements.define("e-translator", item);
+
 function translate(text: string, from: string, to: string) {
     baidu(text, from, to);
     // youdao(text, from, to);
