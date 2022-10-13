@@ -16,6 +16,27 @@ if (!api_id) {
     };
     localStorage.setItem("fanyi", JSON.stringify(api_id));
 }
+function get_v(id: string) {
+    return document.getElementById(id) as HTMLInputElement;
+}
+function load_setting() {
+    get_v("baidu_appid").value = api_id.baidu.appid;
+    get_v("baidu_key").value = api_id.baidu.key;
+    get_v("deepl_key").value = api_id.deepl.key;
+    get_v("caiyun_key").value = api_id.caiyun.token;
+    get_v("bing_key").value = api_id.bing.key;
+}
+load_setting();
+
+function save_setting() {
+    api_id.baidu.appid = get_v("baidu_appid").value;
+    api_id.baidu.key = get_v("baidu_key").value;
+    api_id.deepl.key = get_v("deepl_key").value;
+    api_id.caiyun.token = get_v("caiyun_key").value;
+    api_id.bing.key = get_v("bing_key").value;
+    localStorage.setItem("fanyi", JSON.stringify(api_id));
+}
+document.getElementById("save_setting").onclick = save_setting;
 
 document.querySelector("textarea").value = text || "";
 

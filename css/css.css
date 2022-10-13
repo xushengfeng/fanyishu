@@ -14,3 +14,13 @@
     user-select: none;
     -webkit-user-drag: none;
 }
+
+.icon-pel > div {
+    @apply icon-m;
+}
+.icon-m {
+    @apply h-8 w-8 relative cursor-pointer;
+}
+.icon-m > .icon {
+    @apply h-6 w-6 top-1 left-1;
+}
