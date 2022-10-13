@@ -3,8 +3,9 @@ import "../css/css.css";
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
 var text = s.get("text") || "";
-var fl = s.get("from") || "";
-var tl = s.get("to") || "";
+var fl = "";
+var tl = "";
+var mode = s.get("m") || "";
 
 var api_id = JSON.parse(localStorage.getItem("fanyi"));
 if (!api_id) {
