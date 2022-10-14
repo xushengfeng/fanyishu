@@ -92,6 +92,12 @@ class item extends HTMLElement {
         this.c = document.createElement("div");
         this.append(this.c);
 
+        let add_b = document.createElement("div"),
+            add_c = document.createElement("div");
+        add_b.classList.add("add_b");
+        add_c.classList.add("add_c");
+        bar.append(add_b, add_c);
+
         let t_list = document.createElement("select");
         for (let i in o) {
             let op = document.createElement("option");
@@ -100,6 +106,17 @@ class item extends HTMLElement {
             t_list.append(op);
         }
         this.t.append(t_list);
+
+        add_b.onclick = () => {
+            let t = document.createElement("e-translator") as item;
+            t.id = "x";
+            this.after(t);
+        };
+        add_c.onclick = () => {
+            let t = document.createElement("e-translator") as item;
+            t.id = "x";
+            this.c.append(t);
+        };
     }
 
     set text(t: string) {
