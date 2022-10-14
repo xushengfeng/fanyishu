@@ -70,6 +70,16 @@ function render_tree(tree: item_type[], pel: HTMLElement) {
     }
 }
 
+function get_tree(pel: HTMLElement) {
+    let l = [] as item_type[];
+    if (pel.querySelector(":scope > e-translator")) {
+        pel.querySelectorAll(":scope > e-translator").forEach((el: item) => {
+            l.push({ e: el.e, from: "", to: "", id: el.id, children: el.子翻译器 });
+        });
+    }
+    return l;
+}
+
 class item extends HTMLElement {
     constructor() {
         super();
@@ -139,6 +149,10 @@ class item extends HTMLElement {
 
     set 子翻译器(tree: item_type[]) {
         render_tree(tree, this.c);
+    }
+
+    get 子翻译器() {
+        return get_tree(this.c);
     }
 }
 
