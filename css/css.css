@@ -40,7 +40,10 @@ e-translator > div:nth-child(1):hover .add_b {
     @apply -bottom-2 bg-green-300 pointer-events-auto;
 }
 e-translator > div:nth-child(1):hover .add_c {
-    @apply -right-2 bg-green-300  pointer-events-auto;
+    @apply -right-2 bg-green-300 pointer-events-auto;
+}
+e-translator > div:nth-child(1):hover .rm {
+    @apply bg-red-300 pointer-events-auto;
 }
 
 .add_b {
@@ -48,6 +51,9 @@ e-translator > div:nth-child(1):hover .add_c {
 }
 .add_c {
     @apply absolute h-full w-2 -right-0 top-0 transition-all rounded-lg pointer-events-none;
+}
+.rm {
+    @apply absolute h-2 w-2 -right-1 -top-1 transition-all rounded-lg pointer-events-none;
 }
 
 e-translator > div:nth-child(2) {
