@@ -106,8 +106,10 @@ class select extends HTMLElement {
         shadow.append(this.show);
         shadow.append(this.more);
 
-        this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
-        this.more.querySelector(":scope > *").classList.add("e-select-selected");
+        if (this.more.querySelector(":scope > *")) {
+            this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
+            this.more.querySelector(":scope > *").classList.add("e-select-selected");
+        }
 
         this.more.classList.add("e-select-hide");
 
@@ -152,15 +154,15 @@ class item extends HTMLElement {
 
     _value = "";
     t: select;
-    from: HTMLElement;
-    to: HTMLElement;
+    from: select;
+    to: select;
     c: HTMLElement;
 
     connectedCallback() {
         var bar = document.createElement("div");
         this.t = document.createElement("e-select") as select;
-        this.from = document.createElement("div");
-        this.to = document.createElement("div");
+        this.from = document.createElement("e-select") as select;
+        this.to = document.createElement("e-select") as select;
 
         for (let i in o) {
             let op = document.createElement("option");
