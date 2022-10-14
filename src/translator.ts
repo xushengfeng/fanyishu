@@ -80,22 +80,95 @@ function get_tree(pel: HTMLElement) {
     return l;
 }
 
+import css from "../css/css.css";
+
+class select extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    _value = "";
+    more: HTMLElement;
+    show: HTMLElement;
+
+    connectedCallback() {
+        var shadow = this.attachShadow({ mode: "open" });
+        let style = document.createElement("style");
+        style.innerHTML = css;
+        shadow.append(style);
+
+        this.more = document.createElement("div");
+        this.more.classList.add("e-select-more");
+        this.more.innerHTML = this.innerHTML;
+
+        this.show = document.createElement("div");
+        this.show.classList.add("e-select-show");
+        shadow.append(this.show);
+        shadow.append(this.more);
+
+        this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
+        this.more.querySelector(":scope > *").classList.add("e-select-selected");
+
+        this.more.classList.add("e-select-hide");
+
+        this.show.onclick = () => {
+            this.more.classList.toggle("e-select-hide");
+        };
+
+        this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
+            el.onclick = () => {
+                this.show.innerHTML = el.innerHTML;
+                this.more.querySelectorAll(".e-select-selected").forEach((i) => {
+                    i.classList.remove("e-select-selected");
+                });
+                el.classList.add("e-select-selected");
+                let value = el.getAttribute("value") || el.innerText;
+                this._value = value;
+                this.more.classList.add("e-select-hide");
+            };
+        });
+    }
+
+    set value(t: string) {
+        this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
+            let value = el.getAttribute("value") || el.innerText;
+            if (value == t) {
+                el.classList.add("e-select-selected");
+                this.show.innerHTML = el.innerHTML;
+            }
+        });
+    }
+    get value() {
+        return this._value;
+    }
+}
+
+window.customElements.define("e-select", select);
+
 class item extends HTMLElement {
     constructor() {
         super();
     }
 
     _value = "";
-    t: HTMLElement;
+    t: select;
     from: HTMLElement;
     to: HTMLElement;
     c: HTMLElement;
 
     connectedCallback() {
         var bar = document.createElement("div");
-        this.t = document.createElement("div");
+        this.t = document.createElement("e-select") as select;
         this.from = document.createElement("div");
         this.to = document.createElement("div");
+
+        for (let i in o) {
+            let op = document.createElement("option");
+            op.innerText = o[i].t;
+            op.value = i;
+            this.t.append(op);
+        }
+
         this.append(bar);
         bar.append(this.t, this.from, this.to);
 
@@ -109,15 +182,6 @@ class item extends HTMLElement {
         add_c.classList.add("add_c");
         rm.classList.add("rm");
         bar.append(add_b, add_c, rm);
-
-        let t_list = document.createElement("select");
-        for (let i in o) {
-            let op = document.createElement("option");
-            op.innerText = o[i].t;
-            op.value = i;
-            t_list.append(op);
-        }
-        this.t.append(t_list);
 
         add_b.onclick = () => {
             let t = document.createElement("e-translator") as item;
@@ -135,7 +199,7 @@ class item extends HTMLElement {
     }
 
     set text(t: string) {
-        engine(this.t.querySelector("select").value, t, "", "").then((v) => {
+        engine(this.t.value, t, "", "").then((v) => {
             console.log(v);
             this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
                 el.text = v;
@@ -144,7 +208,7 @@ class item extends HTMLElement {
     }
 
     set e(t: string) {
-        this.t.querySelector("select").value = t;
+        this.t.value = t;
     }
 
     set 子翻译器(tree: item_type[]) {

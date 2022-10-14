@@ -83,3 +83,23 @@ e-translator > div:nth-child(1):hover .rm {
 e-translator > div:nth-child(2) {
     @apply flex gap-2 flex-col;
 }
+
+e-select {
+    @apply relative;
+}
+.e-select-more {
+    @apply absolute bg-white shadow-md p-1 rounded transition-opacity;
+}
+.e-select-more > * {
+    @apply transition rounded-sm;
+}
+.e-select-more > *:hover {
+    @apply bg-gray-200;
+}
+.e-select-selected {
+    @apply bg-gray-100;
+}
+.e-select-hide {
+    opacity: 0;
+    pointer-events: none;
+}
