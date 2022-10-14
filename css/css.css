@@ -25,8 +25,32 @@
     @apply h-6 w-6 top-1 left-1;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ddd;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+}
+::-webkit-scrollbar-track {
+    background: #0000;
+}
+::-webkit-scrollbar-button {
+    border-radius: 10px;
+    height: 8px;
+    width: 8px;
+    background-color: #ddd;
+}
+::-webkit-scrollbar-corner {
+    background-color: #0000;
+}
+
 #translators {
-    @apply flex gap-2 flex-col p-2;
+    @apply flex gap-2 flex-col p-2 overflow-auto;
 }
 
 e-translator {
