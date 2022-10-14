@@ -137,6 +137,7 @@ class select extends HTMLElement {
             if (value == t) {
                 el.classList.add("e-select-selected");
                 this.show.innerHTML = el.innerHTML;
+                this._value = t;
             }
         });
     }
