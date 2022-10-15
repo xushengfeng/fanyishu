@@ -300,7 +300,8 @@ class item extends HTMLElement {
     }
 
     set text(t: string) {
-        engine(this.t.value, t, "", "").then((v) => {
+        let lans = o[t].lan;
+        engine(this.t.value, t, lans[this.from.value], lans[this.to.value]).then((v) => {
             console.log(v);
             this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
                 el.text = v;
@@ -368,7 +369,7 @@ function engine(e: string, text: string, from: string, to: string) {
                 fetch(
                     `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(
                         text
-                    )}&from=en&to=zh&appid=${appid}&salt=${salt}&sign=${sign}`
+                    )}&from=${from}&to=${to}&appid=${appid}&salt=${salt}&sign=${sign}`
                 )
                     .then((v) => v.json())
                     .then((t) => {
@@ -418,8 +419,8 @@ function engine(e: string, text: string, from: string, to: string) {
                 fetch(
                     `https://api.cognitive.microsofttranslator.com/translate?${new URLSearchParams({
                         "api-version": "3.0",
-                        from: "en",
-                        to: "cn",
+                        from: from,
+                        to: to,
                     }).toString()}`,
                     {
                         method: "POST",
