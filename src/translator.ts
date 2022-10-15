@@ -91,7 +91,15 @@ let o = {
         },
     },
     deepl: { t: "Deepl", lan: {} },
-    caiyun: { t: "彩云", lan: {} },
+    caiyun: {
+        t: "彩云",
+        lan: {
+            auto: "auto",
+            zh_hans: "zh",
+            en: "en",
+            jp: "ja",
+        },
+    },
     bing: { t: "必应", lan: {} },
 };
 
@@ -399,7 +407,7 @@ function engine(e: string, text: string, from: string, to: string) {
                 let token = api_id.caiyun.token;
                 let payload = {
                     source: text.split("\n"),
-                    trans_type: "auto2zh",
+                    trans_type: `${from}2${to}`,
                     request_id: "demo",
                     detect: true,
                 };
