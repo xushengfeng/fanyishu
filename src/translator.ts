@@ -282,7 +282,7 @@ function engine(e: string, text: string, from: string, to: string) {
                     .then((v) => v.json())
                     .then((t) => {
                         let l = t.trans_result.map((v) => v.dst);
-                        document.getElementById("baidu").innerText = l.join("\n");
+                        re(l.join("\n"));
                     });
                 break;
             case "deepl":
@@ -298,7 +298,7 @@ function engine(e: string, text: string, from: string, to: string) {
                     .then((v) => v.json())
                     .then((t) => {
                         let l = t.translations.map((x) => x.text);
-                        document.getElementById("deepl").innerText = l.join("\n");
+                        re(l.join("\n"));
                     });
                 break;
             case "caiyun":
@@ -319,7 +319,7 @@ function engine(e: string, text: string, from: string, to: string) {
                     .then((v) => v.json())
                     .then((t) => {
                         console.log(t);
-                        document.getElementById("caiyun").innerText = t.target.join("\n");
+                        re(t.target.join("\n"));
                     });
                 break;
             case "bing":
@@ -346,7 +346,7 @@ function engine(e: string, text: string, from: string, to: string) {
                 )
                     .then((v) => v.json())
                     .then((t) => {
-                        document.getElementById("bing").innerText = t[0].translations[0].text;
+                        re(t[0].translations[0].text);
                     });
                 break;
 
