@@ -222,14 +222,27 @@ class select extends HTMLElement {
         });
     }
     set value(t: string) {
+        let xel = null as HTMLElement;
+        this.more.querySelectorAll(".e-select-selected").forEach((i) => {
+            i.classList.remove("e-select-selected");
+        });
         this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
             let value = el.getAttribute("value") || el.innerText;
             if (value == t) {
-                el.classList.add("e-select-selected");
-                this.show.innerHTML = el.innerHTML;
-                this._value = t;
+                xel = el;
             }
         });
+        if (xel) {
+            xel.classList.add("e-select-selected");
+            this.show.innerHTML = xel.innerHTML;
+            this._value = t;
+        } else {
+            if (this.more.querySelector(":scope > *")) {
+                this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
+                this.more.querySelector(":scope > *").classList.add("e-select-selected");
+                this._value = this.more.querySelector(":scope > *").getAttribute("value");
+            }
+        }
     }
     get value() {
         return this._value;
