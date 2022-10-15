@@ -197,6 +197,11 @@ class select extends HTMLElement {
         this.show.onclick = () => {
             this.more.classList.toggle("e-select-hide");
         };
+
+        this.tabIndex = 0;
+        this.onblur = () => {
+            this.more.classList.add("e-select-hide");
+        };
     }
 
     load() {
