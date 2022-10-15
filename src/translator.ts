@@ -176,19 +176,24 @@ class select extends HTMLElement {
 
         this.show = document.createElement("div");
         this.show.classList.add("e-select-show");
+        this.load();
         shadow.append(this.show);
         shadow.append(this.more);
-
-        if (this.more.querySelector(":scope > *")) {
-            this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
-            this.more.querySelector(":scope > *").classList.add("e-select-selected");
-        }
 
         this.more.classList.add("e-select-hide");
 
         this.show.onclick = () => {
             this.more.classList.toggle("e-select-hide");
         };
+    }
+
+    load() {
+        this.more.innerHTML = this.innerHTML;
+
+        if (this.more.querySelector(":scope > *")) {
+            this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
+            this.more.querySelector(":scope > *").classList.add("e-select-selected");
+        }
 
         this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
             el.onclick = () => {
@@ -203,7 +208,6 @@ class select extends HTMLElement {
             };
         });
     }
-
     set value(t: string) {
         this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
             let value = el.getAttribute("value") || el.innerText;
