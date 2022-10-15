@@ -303,9 +303,11 @@ class item extends HTMLElement {
                 o.value = i;
                 o.innerText = lan[i][language];
                 this.from.append(o);
-                this.to.append(o.cloneNode(true));
                 this.from.load();
-                this.to.load();
+                if (i != "auto") {
+                    this.to.append(o.cloneNode(true));
+                    this.to.load();
+                }
             }
     }
 
