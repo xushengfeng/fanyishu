@@ -150,6 +150,8 @@ function render_tree(tree: item_type[], pel: HTMLElement) {
         pel.append(t);
         if (i.children) t.子翻译器 = i.children;
         t.e = i.e;
+        t.from.value = i.from;
+        t.to.value = i.to;
     }
 }
 
