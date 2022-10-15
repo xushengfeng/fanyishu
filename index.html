@@ -13,11 +13,15 @@
 
 <body>
     <div id="main" class="grid gap-4 p-4 h-screen">
+        <div class="icon-pel">
+            <div id="show_setting"></div>
+        </div>
         <textarea name="i" id="i"
             class="shadow-md rounded-lg focus:ring-2 ring-sky-500 outline-none p-2 resize-none w-full h-64"></textarea>
         <div id="translators"></div>
     </div>
-    <div id="设置">
+    <div id="设置"
+        class="fixed top-0 left-0 flex flex-col w-full h-full items-center justify-center bg-white transition-opacity setting_hide">
         <div id="密码">
             <div>
                 <h2>百度</h2>
@@ -38,6 +42,7 @@
             </div>
         </div>
         <div class="icon-pel">
+            <div id="exit_setting"></div>
             <div id="save_setting"></div>
         </div>
     </div>

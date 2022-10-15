@@ -37,6 +37,14 @@ function save_setting() {
 }
 document.getElementById("save_setting").onclick = save_setting;
 
+const setting = document.getElementById("设置");
+document.getElementById("exit_setting").onclick = () => {
+    setting.classList.add("setting_hide");
+};
+document.getElementById("show_setting").onclick = () => {
+    setting.classList.remove("setting_hide");
+};
+
 document.querySelector("textarea").value = text || "";
 
 document.querySelector("textarea").oninput = () => {

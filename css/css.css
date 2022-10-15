@@ -49,6 +49,11 @@
     background-color: #0000;
 }
 
+.setting_hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
 #translators {
     @apply flex gap-2 flex-col p-2 overflow-auto;
 }
