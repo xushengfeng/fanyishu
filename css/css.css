@@ -59,11 +59,11 @@
 }
 
 e-translator {
-    @apply flex gap-2;
+    @apply flex gap-2 select-none;
 }
 
 e-translator > div:nth-child(1) {
-    @apply relative flex shadow-md p-2 rounded-lg w-fit h-fit;
+    @apply relative flex shadow-md p-2 rounded-lg w-fit h-fit gap-1;
 }
 e-translator > div:nth-child(1):hover .add_b {
     @apply -bottom-2 bg-green-300 pointer-events-auto;
@@ -93,7 +93,7 @@ e-select {
     @apply relative;
 }
 .e-select-more {
-    @apply absolute bg-white shadow-md p-1 rounded transition-opacity;
+    @apply absolute bg-white shadow-md p-1 rounded transition-opacity h-40 overflow-y-auto;
 }
 .e-select-more > * {
     @apply transition rounded-sm;
