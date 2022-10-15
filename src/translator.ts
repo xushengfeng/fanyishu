@@ -52,6 +52,8 @@ document.querySelector("textarea").oninput = () => {
     translate(text);
 };
 
+var language = "zh_hans";
+
 let o = {
     youdao: { t: "有道", lan: {} },
     baidu: {
@@ -249,6 +251,8 @@ class item extends HTMLElement {
             this.t.append(op);
         }
 
+        this.reload_lan();
+
         this.append(bar);
         bar.append(this.t, this.from, this.to);
 
@@ -278,6 +282,19 @@ class item extends HTMLElement {
         };
     }
 
+    reload_lan() {
+        if (this.t.value)
+            for (let i in o[this.t.value].lan) {
+                let o = document.createElement("option");
+                o.value = i;
+                o.innerText = lan[i][language];
+                this.from.append(o);
+                this.to.append(o);
+                this.from.load();
+                this.to.load();
+            }
+    }
+
     set text(t: string) {
         engine(this.t.value, t, "", "").then((v) => {
             console.log(v);
@@ -289,6 +306,7 @@ class item extends HTMLElement {
 
     set e(t: string) {
         this.t.value = t;
+        this.reload_lan();
     }
 
     set 子翻译器(tree: item_type[]) {
