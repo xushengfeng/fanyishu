@@ -93,7 +93,7 @@ e-select {
     @apply relative;
 }
 .e-select-more {
-    @apply absolute bg-white shadow-md p-1 rounded transition-opacity h-40 overflow-y-auto;
+    @apply absolute bg-white shadow-md p-1 rounded transition-opacity max-h-40 overflow-y-auto;
 }
 .e-select-more > * {
     @apply transition rounded-sm;
