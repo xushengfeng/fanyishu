@@ -310,7 +310,7 @@ class item extends HTMLElement {
     }
 
     set text(t: string) {
-        let lans = o[t].lan;
+        let lans = o[this.t.value].lan;
         engine(this.t.value, t, lans[this.from.value], lans[this.to.value]).then((v) => {
             console.log(v);
             this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
