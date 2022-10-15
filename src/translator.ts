@@ -207,6 +207,7 @@ class select extends HTMLElement {
                 let value = el.getAttribute("value") || el.innerText;
                 this._value = value;
                 this.more.classList.add("e-select-hide");
+                this.dispatchEvent(new Event("input"));
             };
         });
     }
@@ -252,6 +253,9 @@ class item extends HTMLElement {
         }
 
         this.reload_lan();
+        this.t.oninput = () => {
+            this.reload_lan();
+        };
 
         this.append(bar);
         bar.append(this.t, this.from, this.to);
@@ -289,7 +293,7 @@ class item extends HTMLElement {
                 o.value = i;
                 o.innerText = lan[i][language];
                 this.from.append(o);
-                this.to.append(o);
+                this.to.append(o.cloneNode(true));
                 this.from.load();
                 this.to.load();
             }
