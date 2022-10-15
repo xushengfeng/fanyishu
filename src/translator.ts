@@ -310,7 +310,11 @@ class item extends HTMLElement {
     }
 
     reload_lan() {
-        if (this.t.value)
+        if (this.t.value) {
+            this.from.innerHTML = "";
+            this.from.load();
+            this.to.innerHTML = "";
+            this.to.load();
             for (let i in o[this.t.value].lan) {
                 let o = document.createElement("option");
                 o.value = i;
@@ -322,6 +326,7 @@ class item extends HTMLElement {
                     this.to.load();
                 }
             }
+        }
     }
 
     set text(t: string) {
