@@ -49,6 +49,10 @@
     background-color: #0000;
 }
 
+#main {
+    grid-template-rows: min-content min-content;
+}
+
 .setting_hide {
     opacity: 0;
     pointer-events: none;
