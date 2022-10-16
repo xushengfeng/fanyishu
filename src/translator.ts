@@ -6,14 +6,17 @@ var text = s.get("text") || "";
 var mode = s.get("m") || "默认";
 
 var api_id = JSON.parse(localStorage.getItem("fanyi"));
+const t_api_id = {
+    youdao: { appid: "", key: "" },
+    baidu: { appid: "", key: "" },
+    deepl: { key: "" },
+    caiyun: { token: "" },
+    bing: { key: "" },
+};
 if (!api_id) {
-    api_id = {
-        youdao: { appid: "", key: "" },
-        baidu: { appid: "", key: "" },
-        deepl: { key: "" },
-        caiyun: { token: "" },
-        bing: { key: "" },
-    };
+    localStorage.setItem("fanyi", JSON.stringify(t_api_id));
+} else {
+    api_id = Object.assign(t_api_id, api_id);
     localStorage.setItem("fanyi", JSON.stringify(api_id));
 }
 function get_v(id: string) {
