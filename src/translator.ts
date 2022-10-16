@@ -268,7 +268,8 @@ class item extends HTMLElement {
     c: HTMLElement;
 
     connectedCallback() {
-        var bar = document.createElement("div");
+        let main = document.createElement("div");
+        let bar = document.createElement("div");
         this.t = document.createElement("e-select") as select;
         this.from = document.createElement("e-select") as select;
         this.to = document.createElement("e-select") as select;
@@ -285,7 +286,8 @@ class item extends HTMLElement {
             this.reload_lan();
         };
 
-        this.append(bar);
+        this.append(main);
+        main.append(bar);
         bar.append(this.t, this.from, this.to);
 
         this.c = document.createElement("div");
@@ -297,7 +299,7 @@ class item extends HTMLElement {
         add_b.classList.add("add_b");
         add_c.classList.add("add_c");
         rm.classList.add("rm");
-        bar.append(add_b, add_c, rm);
+        main.append(add_b, add_c, rm);
 
         add_b.onclick = () => {
             let t = document.createElement("e-translator") as item;

@@ -63,7 +63,10 @@ e-translator {
 }
 
 e-translator > div:nth-child(1) {
-    @apply relative flex shadow-md p-2 rounded-lg w-fit h-fit gap-1;
+    @apply relative w-fit h-fit;
+}
+e-translator > div:nth-child(1) > div:nth-child(1) {
+    @apply relative flex shadow-md p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
 }
 e-translator > div:nth-child(1):hover .add_b {
     @apply -bottom-2 bg-green-300 pointer-events-auto;
