@@ -288,7 +288,7 @@ class item extends HTMLElement {
             this.reload_lan();
         };
 
-        this.zt.classList.add("zt_normal");
+        this.set_zt("n");
 
         this.append(main);
         main.append(bar);
@@ -350,6 +350,29 @@ class item extends HTMLElement {
         }
     }
 
+    set_zt(type: "e" | "w" | "o" | "n", text?: string) {
+        this.zt.classList.remove("zt_normal");
+        this.zt.classList.remove("zt_waring");
+        this.zt.classList.remove("zt_ok");
+        this.zt.classList.remove("zt_error");
+        switch (type) {
+            case "e":
+                this.zt.classList.add("zt_error");
+                break;
+            case "n":
+                this.zt.classList.add("zt_normal");
+                break;
+            case "o":
+                this.zt.classList.add("zt_ok");
+                break;
+            case "w":
+                this.zt.classList.add("zt_waring");
+                break;
+            default:
+                break;
+        }
+    }
+
     set from_lan(t: string) {
         let has_lan = false;
         for (let i in o[this.t.value].lan) {
@@ -360,7 +383,7 @@ class item extends HTMLElement {
             }
         }
         if (!has_lan) {
-            this.zt.classList.add("zt_waring");
+            this.set_zt("w");
         }
         this.check_from(t);
     }
@@ -371,9 +394,9 @@ class item extends HTMLElement {
             t != "auto" &&
             t != (this.parentElement.parentElement as item).to.value
         ) {
-            this.zt.classList.add("zt_waring");
+            this.set_zt("w");
         } else {
-            this.zt.classList.remove("zt_waring");
+            this.set_zt("n");
         }
     }
 
@@ -385,10 +408,10 @@ class item extends HTMLElement {
                 this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
                     el.text = v;
                 });
-                this.zt.classList.add("zt_ok");
+                this.set_zt("o");
             })
             .catch((e) => {
-                this.zt.classList.add("zt_error");
+                this.set_zt("e");
             });
     }
 
