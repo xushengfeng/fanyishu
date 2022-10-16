@@ -397,6 +397,10 @@ class item extends HTMLElement {
         this.reload_lan();
     }
 
+    get e() {
+        return this.t.value;
+    }
+
     set 子翻译器(tree: item_type[]) {
         render_tree(tree, this.c);
     }
