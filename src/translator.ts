@@ -697,6 +697,7 @@ class item extends HTMLElement {
             })
             .catch((e) => {
                 this.set_zt("e");
+                console.error(e);
             });
     }
 
