@@ -295,9 +295,14 @@ class item extends HTMLElement {
         bar.append(this.zt, this.t, this.from, this.to);
 
         this.from.oninput = () => {
-            this.check_from(this.from.value);
+            this.check_from();
         };
 
+        this.to.oninput = () => {
+            this.c.querySelectorAll(":scope > e-translator").forEach((cel: item) => {
+                cel.check_from();
+            });
+        };
         this.c = document.createElement("div");
         this.append(this.c);
 
@@ -378,17 +383,18 @@ class item extends HTMLElement {
         for (let i in o[this.t.value].lan) {
             if (i == t) {
                 has_lan = true;
-                this.from.value = t;
                 break;
             }
         }
         if (!has_lan) {
             this.set_zt("w");
         }
-        this.check_from(t);
+        this.from.value = t;
+        this.check_from();
     }
 
-    check_from(t: string) {
+    check_from() {
+        let t = this.from.value;
         if (
             this.parentElement != document.getElementById("translators") &&
             t != "auto" &&
