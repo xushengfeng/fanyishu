@@ -63,56 +63,72 @@ document.querySelector("textarea").oninput = () => {
 var language = "zh_hans";
 
 let o = {
-    youdao: { t: "有道", lan: {} },
+    youdao: { t: "有道", lan: [], lan2lan: {} },
     baidu: {
         t: "百度",
-        lan: {
-            auto: "auto",
+        lan: [
+            "auto",
+            "zh_hans",
+            "zh_hant",
+            "en",
+            "yue",
+            "wyw",
+            "jp",
+            "ko_kr",
+            "fr",
+            "es",
+            "th",
+            "ar",
+            "ru",
+            "pt",
+            "de",
+            "it",
+            "el",
+            "nl",
+            "pl",
+            "bg",
+            "et",
+            "da",
+            "fi",
+            "cs",
+            "ro",
+            "sl",
+            "sv",
+            "hu",
+            "vi",
+        ],
+        lan2lan: {
             zh_hans: "zh",
             zh_hant: "cht",
-            en: "en",
-            yue: "yue",
-            wyw: "wyw",
             jp: "jp",
             ko_kr: "kor",
             fr: "fra",
             es: "spa",
-            th: "th",
             ar: "ara",
-            ru: "ru",
-            pt: "pt",
-            de: "de",
-            it: "it",
-            el: "el",
-            nl: "nl",
-            pl: "pl",
             bg: "bul",
             et: "est",
             da: "dan",
             fi: "fin",
-            cs: "cs",
             ro: "rom",
             sl: "slo",
             sv: "swe",
-            hu: "hu",
             vi: "vie",
         },
     },
-    deepl: { t: "Deepl", lan: {} },
+    deepl: { t: "Deepl", lan: [], lan2lan: {} },
     caiyun: {
         t: "彩云",
-        lan: {
-            auto: "auto",
+        lan: ["auto", "zh_hans", "en", "jp"],
+        lan2lan: {
             zh_hans: "zh",
-            en: "en",
             jp: "ja",
         },
     },
-    bing: { t: "必应", lan: {} },
+    bing: { t: "必应", lan: [], lan2lan: {} },
 };
 
 function to_e_lan(lan: string, e: string) {
-    return o[e].lan[lan] || lan;
+    return o[e].lan2lan[lan] || lan;
 }
 
 const lan = {
@@ -385,7 +401,7 @@ class item extends HTMLElement {
             this.from.load();
             this.to.innerHTML = "";
             this.to.load();
-            for (let i in o[this.t.value].lan) {
+            for (let i of o[this.t.value].lan) {
                 let o = document.createElement("option");
                 o.value = i;
                 o.innerText = lan[i][language];
