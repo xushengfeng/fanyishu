@@ -54,6 +54,27 @@ document.getElementById("exit_setting").onclick = () => {
 document.getElementById("show_setting").onclick = () => {
     setting.classList.remove("setting_hide");
 };
+document.getElementById("down_setting").onclick = () => {
+    let a = document.createElement("a");
+    let blob = new Blob([JSON.stringify(JSON.parse(localStorage.getItem("fanyi")), null, 4)]);
+    a.download = `eSearch-translator-key.json`;
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    URL.revokeObjectURL(String(blob));
+};
+document.getElementById("up_setting").onclick = () => {
+    let file = document.createElement("input");
+    file.type = "file";
+    file.click();
+    file.oninput = () => {
+        let reader = new FileReader();
+        reader.onload = () => {
+            localStorage.setItem("fanyi", <string>reader.result);
+            load_setting();
+        };
+        reader.readAsText(file.files[0]);
+    };
+};
 
 document.querySelector("textarea").value = text || "";
 
