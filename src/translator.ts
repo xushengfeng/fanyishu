@@ -268,6 +268,8 @@ class select extends HTMLElement {
 
 window.customElements.define("e-select", select);
 
+const text_result = document.getElementById("text");
+
 class item extends HTMLElement {
     constructor() {
         super();
@@ -434,6 +436,12 @@ class item extends HTMLElement {
                 });
                 this.zt.querySelector("div").innerText = v;
                 this.set_zt("o");
+
+                if (!this.c.querySelector("e-translator")) {
+                    let div = document.createElement("div");
+                    div.innerText = v;
+                    text_result.append(div);
+                }
             })
             .catch((e) => {
                 this.set_zt("e");
@@ -465,6 +473,7 @@ function get_item(id: string) {
 }
 
 function translate(text: string) {
+    text_result.innerHTML = "";
     for (let i of tree) {
         get_item(i.id).text = text;
     }
