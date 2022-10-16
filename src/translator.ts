@@ -3,7 +3,7 @@ import "../css/css.css";
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
 var text = s.get("text") || "";
-var mode = s.get("m") || "";
+var mode = s.get("m") || "默认";
 
 var api_id = JSON.parse(localStorage.getItem("fanyi"));
 if (!api_id) {
@@ -141,7 +141,8 @@ let trees: { [id: string]: item_type[] } = JSON.parse(localStorage.getItem("tree
 if (!trees) {
     trees = { 默认: [{ id: "a", e: "caiyun", from: "cn", to: "en" }] };
 }
-let tree: item_type[] = trees[mode] || trees.默认;
+if (!trees[mode]) mode = "默认";
+let tree: item_type[] = trees[mode];
 
 function render_tree(tree: item_type[], pel: HTMLElement) {
     for (let i of tree) {
@@ -159,10 +160,16 @@ function get_tree(pel: HTMLElement) {
     let l = [] as item_type[];
     if (pel.querySelector(":scope > e-translator")) {
         pel.querySelectorAll(":scope > e-translator").forEach((el: item) => {
-            l.push({ e: el.e, from: "", to: "", id: el.id, children: el.子翻译器 });
+            l.push({ e: el.e, from: el.from.value, to: el.to.value, id: el.id, children: el.子翻译器 });
         });
     }
     return l;
+}
+
+function tree_change() {
+    tree = get_tree(document.getElementById("translators"));
+    trees[mode] = tree;
+    localStorage.setItem("trees", JSON.stringify(trees));
 }
 
 import css from "../css/css.css";
@@ -300,6 +307,7 @@ class item extends HTMLElement {
         this.reload_lan();
         this.t.oninput = () => {
             this.reload_lan();
+            tree_change();
         };
 
         this.set_zt("n");
@@ -316,12 +324,14 @@ class item extends HTMLElement {
 
         this.from.oninput = () => {
             this.check_from();
+            tree_change();
         };
 
         this.to.oninput = () => {
             this.c.querySelectorAll(":scope > e-translator").forEach((cel: item) => {
                 cel.check_from();
             });
+            tree_change();
         };
         this.c = document.createElement("div");
         this.append(this.c);
@@ -340,6 +350,7 @@ class item extends HTMLElement {
             this.after(t);
             t.e = this.t.value;
             t.from_lan = this.from.value;
+            tree_change();
         };
         add_c.onclick = () => {
             let t = document.createElement("e-translator") as item;
@@ -347,9 +358,11 @@ class item extends HTMLElement {
             this.c.append(t);
             t.e = this.t.value;
             t.from_lan = this.to.value;
+            tree_change();
         };
         rm.onclick = () => {
             if (document.querySelectorAll("e-translator").length > 1) this.remove();
+            tree_change();
         };
     }
 
