@@ -111,6 +111,10 @@ let o = {
     bing: { t: "必应", lan: {} },
 };
 
+function to_e_lan(lan: string, e: string) {
+    return o[e].lan[lan] || lan;
+}
+
 const lan = {
     auto: { zh_hans: "自动" },
     zh_hans: { zh_hans: "简体中文" },
@@ -448,8 +452,8 @@ class item extends HTMLElement {
     }
 
     set text(t: string) {
-        let lans = o[this.t.value].lan;
-        engine(this.t.value, t, lans[this.from.value], lans[this.to.value])
+        let e = this.t.value;
+        engine(e, t, to_e_lan(this.from.value, e), to_e_lan(this.to.value, e))
             .then((v) => {
                 console.log(v);
                 this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
