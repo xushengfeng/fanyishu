@@ -294,6 +294,10 @@ class item extends HTMLElement {
         main.append(bar);
         bar.append(this.zt, this.t, this.from, this.to);
 
+        this.from.oninput = () => {
+            this.check_from(this.from.value);
+        };
+
         this.c = document.createElement("div");
         this.append(this.c);
 
@@ -322,6 +326,7 @@ class item extends HTMLElement {
 
     reload_lan() {
         if (this.t.value) {
+            const from_lan = this.from.value;
             this.from.innerHTML = "";
             this.from.load();
             this.to.innerHTML = "";
@@ -337,6 +342,33 @@ class item extends HTMLElement {
                     this.to.load();
                 }
             }
+            this.from_lan = from_lan;
+        }
+    }
+
+    set from_lan(t: string) {
+        let has_lan = false;
+        for (let i in o[this.t.value].lan) {
+            if (i == t) {
+                has_lan = true;
+                this.from.value = t;
+                break;
+            }
+        }
+        if (!has_lan) {
+            this.zt.classList.add("zt_waring");
+        }
+        this.check_from(t);
+    }
+
+    check_from(t: string) {
+        if (
+            this.parentElement != document.getElementById("translators") &&
+            t != (this.parentElement.parentElement as item).to.value
+        ) {
+            this.zt.classList.add("zt_waring");
+        } else {
+            this.zt.classList.remove("zt_waring");
         }
     }
 

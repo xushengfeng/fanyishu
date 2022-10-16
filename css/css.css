@@ -77,7 +77,7 @@ e-translator > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
 .zt_ok {
     @apply bg-green-400;
 }
-.zt_warning {
+.zt_waring {
     @apply bg-yellow-400;
 }
 .zt_error {
