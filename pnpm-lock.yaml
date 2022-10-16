@@ -4,6 +4,7 @@ specifiers:
   autoprefixer: ^10.4.12
   blueimp-md5: ^2.19.0
   crypto-js: ^4.1.1
+  fetch-jsonp: ^1.2.3
   postcss: ^8.4.16
   tailwindcss: ^3.1.8
   typescript: ^4.8.2
@@ -12,6 +13,7 @@ specifiers:
 dependencies:
   blueimp-md5: 2.19.0
   crypto-js: 4.1.1
+  fetch-jsonp: 1.2.3
 
 devDependencies:
   autoprefixer: 10.4.12_postcss@8.4.17
@@ -430,6 +432,10 @@ packages:
     dependencies:
       reusify: 1.0.4
     dev: true
+
+  /fetch-jsonp/1.2.3:
+    resolution: {integrity: sha512-C13k1o7R9JTN1wmhKkrW5bU/00LwixXnkufQUR6Rbf4KCS0i8mycQaovt4WVbHnA2NKgi7Ryp9Whpy/CGcij6Q==}
+    dev: false
 
   /fill-range/7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}

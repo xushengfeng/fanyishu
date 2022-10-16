@@ -1,5 +1,6 @@
 import "../css/css.css";
 import CryptoJS from "crypto-js";
+import fetchJSONP from "fetch-jsonp";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
@@ -758,21 +759,10 @@ function engine(e: string, text: string, from: string, to: string) {
                         signType: "v3",
                         curtime: curtime,
                     };
-                    fetch("https://openapi.youdao.com/api", {
-                        method: "post",
-                        body: new URLSearchParams(data).toString(),
-                    })
+                    fetchJSONP("https://openapi.youdao.com/api?" + new URLSearchParams(data).toString())
                         .then((v) => v.json())
                         .then((t) => {
-                            let l = [];
-                            for (let i of t.translation) {
-                                let t = "";
-                                for (let ii of i) {
-                                    t += ii.tgt;
-                                }
-                                l.push(t);
-                            }
-                            re(l.join("\n"));
+                            re(t.translation.join("\n"));
                         })
                         .catch(rj);
 
