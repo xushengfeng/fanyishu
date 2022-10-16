@@ -301,6 +301,12 @@ class item extends HTMLElement {
         };
 
         this.set_zt("n");
+        let text = document.createElement("div");
+        text.classList.add("text");
+        this.zt.append(text);
+        this.zt.onclick = (e) => {
+            if (e.target == this.zt) text.classList.toggle("text_show");
+        };
 
         this.append(main);
         main.append(bar);
@@ -426,6 +432,7 @@ class item extends HTMLElement {
                 this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
                     el.text = v;
                 });
+                this.zt.querySelector("div").innerText = v;
                 this.set_zt("o");
             })
             .catch((e) => {

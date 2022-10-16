@@ -73,7 +73,7 @@ e-translator > div:nth-child(1) > div:nth-child(1) {
     @apply relative flex items-center shadow-md p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
 }
 e-translator > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
-    @apply w-2 h-2 shadow-sm rounded-full;
+    @apply relative w-2 h-2 shadow-sm rounded-full;
 }
 .zt_normal {
     @apply bg-gray-300;
@@ -86,6 +86,12 @@ e-translator > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
 }
 .zt_error {
     @apply bg-red-400;
+}
+.text {
+    @apply absolute w-48 max-h-96 resize z-10 left-2 top-2 overflow-y-auto select-text opacity-0 pointer-events-none bg-white shadow-md p-1 rounded-sm;
+}
+.text_show {
+    @apply opacity-100 pointer-events-auto;
 }
 e-translator > div:nth-child(1):hover .add_b {
     @apply -bottom-2 bg-green-300 pointer-events-auto;
