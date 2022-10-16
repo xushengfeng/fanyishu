@@ -252,7 +252,7 @@ let o = {
         },
     },
     bing: { t: "必应", lan: [], lan2lan: {} },
-};
+} as { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2lan: object } };
 
 function to_e_lan(lan: string, e: string) {
     return o[e].lan2lan[lan] || lan;
