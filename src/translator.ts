@@ -313,15 +313,14 @@ class item extends HTMLElement {
             let t = document.createElement("e-translator") as item;
             t.id = "x";
             this.after(t);
-            t.t = this.t;
-            t.reload_lan();
+            t.e = this.t.value;
+            t.from_lan = this.from.value;
         };
         add_c.onclick = () => {
             let t = document.createElement("e-translator") as item;
             t.id = "x";
             this.c.append(t);
-            t.t = this.t;
-            t.reload_lan();
+            t.e = this.t.value;
             t.from_lan = this.to.value;
         };
         rm.onclick = () => {
