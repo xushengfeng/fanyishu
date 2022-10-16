@@ -1,4 +1,5 @@
 import "../css/css.css";
+import CryptoJS from "crypto-js";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
@@ -733,8 +734,6 @@ function translate(text: string) {
 render_tree(tree, document.getElementById("translators"));
 
 translate(text);
-
-import CryptoJS from "crypto-js";
 
 function engine(e: string, text: string, from: string, to: string) {
     return new Promise((re: (text: string) => void, rj) => {
