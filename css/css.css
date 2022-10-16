@@ -72,7 +72,7 @@ e-translator > div:nth-child(1) {
 e-translator > div:nth-child(1) > div:nth-child(1) {
     @apply relative flex items-center shadow-md p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
 }
-e-translator > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+e-translator > div:nth-child(1) > div:nth-child(1) > div:last-child {
     @apply relative w-2 h-2 shadow-sm rounded-full;
 }
 .zt_normal {
@@ -81,11 +81,11 @@ e-translator > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
 .zt_ok {
     @apply bg-green-400;
 }
-.zt_waring {
-    @apply bg-yellow-400;
-}
 .zt_error {
     @apply bg-red-400;
+}
+.waring {
+    @apply outline-dashed outline-2 outline-yellow-400 rounded-sm;
 }
 .text {
     @apply absolute w-48 max-h-96 resize z-10 left-2 top-2 overflow-y-auto select-text opacity-0 pointer-events-none bg-white shadow-md p-1 rounded-sm;

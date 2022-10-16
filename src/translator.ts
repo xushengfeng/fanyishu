@@ -819,7 +819,7 @@ class item extends HTMLElement {
 
         this.append(main);
         main.append(bar);
-        bar.append(this.zt, this.t, this.from, this.to);
+        bar.append(this.t, this.from, this.to, this.zt);
 
         this.from.oninput = () => {
             this.check_from();
@@ -897,9 +897,8 @@ class item extends HTMLElement {
         }
     }
 
-    set_zt(type: "e" | "w" | "o" | "n", text?: string) {
+    set_zt(type: "e" | "o" | "n", text?: string) {
         this.zt.classList.remove("zt_normal");
-        this.zt.classList.remove("zt_waring");
         this.zt.classList.remove("zt_ok");
         this.zt.classList.remove("zt_error");
         switch (type) {
@@ -911,9 +910,6 @@ class item extends HTMLElement {
                 break;
             case "o":
                 this.zt.classList.add("zt_ok");
-                break;
-            case "w":
-                this.zt.classList.add("zt_waring");
                 break;
             default:
                 break;
@@ -929,7 +925,7 @@ class item extends HTMLElement {
             }
         }
         if (!has_lan) {
-            this.set_zt("w");
+            this.from.classList.add("waring");
         }
         this.from.value = t;
         this.check_from();
@@ -942,9 +938,10 @@ class item extends HTMLElement {
             t != "auto" &&
             t != (this.parentElement.parentElement as item).to.value
         ) {
-            this.set_zt("w");
+            this.from.classList.add("waring");
         } else {
             this.set_zt("n");
+            this.from.classList.remove("waring");
         }
     }
 
