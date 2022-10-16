@@ -806,6 +806,7 @@ class item extends HTMLElement {
         this.reload_lan();
         this.t.oninput = () => {
             this.reload_lan();
+            this.check_e(this.t.value);
             tree_change();
         };
 
@@ -971,6 +972,22 @@ class item extends HTMLElement {
     set e(t: string) {
         this.t.value = t;
         this.reload_lan();
+        this.check_e(t);
+    }
+
+    check_e(t: string) {
+        let has_k = true;
+        for (let i in api_id[t]) {
+            if (api_id[t][i] == "") {
+                has_k = false;
+                break;
+            }
+        }
+        if (!has_k) {
+            this.t.classList.add("waring");
+        } else {
+            this.t.classList.remove("waring");
+        }
     }
 
     get e() {
