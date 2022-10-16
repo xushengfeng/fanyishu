@@ -25,6 +25,8 @@ function get_v(id: string) {
 function load_setting() {
     get_v("baidu_appid").value = api_id.baidu.appid;
     get_v("baidu_key").value = api_id.baidu.key;
+    get_v("youdao_appid").value = api_id.youdao.appid;
+    get_v("youdao_key").value = api_id.youdao.key;
     get_v("deepl_key").value = api_id.deepl.key;
     get_v("caiyun_key").value = api_id.caiyun.token;
     get_v("bing_key").value = api_id.bing.key;
@@ -34,6 +36,8 @@ load_setting();
 function save_setting() {
     api_id.baidu.appid = get_v("baidu_appid").value;
     api_id.baidu.key = get_v("baidu_key").value;
+    api_id.youdao.appid = get_v("youdao_appid").value;
+    api_id.youdao.key = get_v("youdao_key").value;
     api_id.deepl.key = get_v("deepl_key").value;
     api_id.caiyun.token = get_v("caiyun_key").value;
     api_id.bing.key = get_v("bing_key").value;
