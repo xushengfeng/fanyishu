@@ -8,6 +8,7 @@ var mode = s.get("m") || "默认";
 var api_id = JSON.parse(localStorage.getItem("fanyi"));
 if (!api_id) {
     api_id = {
+        youdao: { appid: "", key: "" },
         baidu: { appid: "", key: "" },
         deepl: { key: "" },
         caiyun: { token: "" },
@@ -496,26 +497,54 @@ render_tree(tree, document.getElementById("translators"));
 
 translate(text);
 
+import CryptoJS from "crypto-js";
+
 function engine(e: string, text: string, from: string, to: string) {
     return new Promise((re: (text: string) => void, rj) => {
         switch (e) {
             case "youdao":
-                fetch(`http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=${encodeURIComponent(text)}`, {
-                    method: "GET",
-                })
-                    .then((v) => v.json())
-                    .then((t) => {
-                        let l = [];
-                        for (let i of t.translateResult) {
-                            let t = "";
-                            for (let ii of i) {
-                                t += ii.tgt;
-                            }
-                            l.push(t);
-                        }
-                        re(l.join("\n"));
+                {
+                    if (!api_id.youdao.appid || !api_id.youdao.key) return;
+                    let appKey = api_id.youdao.appid;
+                    let key = api_id.youdao.key;
+                    let salt = String(new Date().getTime());
+                    let curtime = String(Math.round(new Date().getTime() / 1000));
+                    let str1 = appKey + truncate(text) + salt + curtime + key;
+                    let sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex);
+                    let data = {
+                        q: text,
+                        appKey: appKey,
+                        salt: salt,
+                        from: from,
+                        to: to,
+                        sign: sign,
+                        signType: "v3",
+                        curtime: curtime,
+                    };
+                    fetch("https://openapi.youdao.com/api", {
+                        method: "post",
+                        body: new URLSearchParams(data).toString(),
                     })
-                    .catch(rj);
+                        .then((v) => v.json())
+                        .then((t) => {
+                            let l = [];
+                            for (let i of t.translation) {
+                                let t = "";
+                                for (let ii of i) {
+                                    t += ii.tgt;
+                                }
+                                l.push(t);
+                            }
+                            re(l.join("\n"));
+                        })
+                        .catch(rj);
+
+                    function truncate(q: string) {
+                        var len = q.length;
+                        if (len <= 20) return q;
+                        return q.substring(0, 10) + len + q.substring(len - 10, len);
+                    }
+                }
                 break;
             case "baidu":
                 if (!api_id.baidu.appid || !api_id.baidu.key) return;

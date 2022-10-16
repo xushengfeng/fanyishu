@@ -15,7 +15,8 @@
   "homepage": "https://github.com/xushengfeng/eSearch-meta-search/",
   "license": "GPL-3.0",
   "dependencies": {
-    "blueimp-md5": "^2.19.0"
+    "blueimp-md5": "^2.19.0",
+    "crypto-js": "^4.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",
