@@ -242,7 +242,106 @@ let o = {
             vi: "vie",
         },
     },
-    deepl: { t: "Deepl", lan: [], lan2lan: {} },
+    deepl: {
+        t: "Deepl",
+        lan: [
+            "auto",
+            "bg",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "en",
+            "es",
+            "et",
+            "fi",
+            "fr",
+            "hu",
+            "id",
+            "it",
+            "jp",
+            "lt",
+            "lv",
+            "nl",
+            "pl",
+            "pt",
+            "ro",
+            "ru",
+            "sk",
+            "sl",
+            "sv",
+            "tr",
+            "uk",
+            "zh",
+        ],
+        target_lang: [
+            "bg",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "en",
+            "en_gb",
+            "en_us",
+            "es",
+            "et",
+            "fi",
+            "fr",
+            "hu",
+            "id",
+            "it",
+            "jp",
+            "lt",
+            "lv",
+            "nl",
+            "pl",
+            "pt",
+            "pt_br",
+            "pt_pt",
+            "ro",
+            "ru",
+            "sk",
+            "sl",
+            "sv",
+            "tr",
+            "uk",
+            "zh",
+        ],
+        lan2lan: {
+            auto: "",
+            bg: "BG",
+            cs: "CS",
+            da: "DA",
+            de: "DE",
+            el: "EL",
+            en: "EN",
+            en_gb: "EN-GB",
+            en_us: "EN-US",
+            es: "ES",
+            et: "ET",
+            fi: "FI",
+            fr: "FR",
+            hu: "HU",
+            id: "ID",
+            it: "IT",
+            ja: "JA",
+            lt: "LT",
+            lv: "LV",
+            nl: "NL",
+            pl: "PL",
+            pt: "PT",
+            pt_br: "PT-BR",
+            pt_pt: "PT-PT",
+            ro: "RO",
+            ru: "RU",
+            sk: "SK",
+            sl: "SL",
+            sv: "SV",
+            tr: "TR",
+            uk: "UK",
+            zh: "ZH",
+        },
+    },
     caiyun: {
         t: "彩云",
         lan: ["auto", "zh_hans", "en", "jp"],
@@ -260,9 +359,12 @@ function to_e_lan(lan: string, e: string) {
 
 const lan = {
     auto: { zh_hans: "自动" },
+    zh: { zh_hans: "中文" },
     zh_hans: { zh_hans: "简体中文" },
     zh_hant: { zh_hans: "繁体中文" },
     en: { zh_hans: "英语" },
+    en_gb: { zh_hans: "英语（英国）" },
+    en_us: { zh_hans: "英语（美国）" },
     yue: { zh_hans: "粤语" },
     wyw: { zh_hans: "文言文" },
     jp: { zh_hans: "日语" },
@@ -273,6 +375,8 @@ const lan = {
     ar: { zh_hans: "阿拉伯语" },
     ru: { zh_hans: "俄语" },
     pt: { zh_hans: "葡萄牙语" },
+    pt_br: { zh_hans: "葡萄牙语（巴西）" },
+    pt_pt: { zh_hans: "葡萄牙语（不包括巴西葡萄牙语）" },
     de: { zh_hans: "德语" },
     it: { zh_hans: "意大利语" },
     el: { zh_hans: "希腊语" },
@@ -373,7 +477,7 @@ const lan = {
     yi: { zh_hans: "意第绪语" },
     yo: { zh_hans: "约鲁巴语" },
     zu: { zh_hans: "南非祖鲁语" },
-};
+} as { [lan: string]: { zh_hans: string } };
 
 type item_type = { id: string; e: string; from: string; to: string; children?: item_type[] };
 
@@ -619,6 +723,11 @@ class item extends HTMLElement {
                 o.innerText = lan[i][language];
                 this.from.append(o);
                 this.from.load();
+            }
+            for (let i of o[this.t.value].target_lang || o[this.t.value].lan) {
+                let o = document.createElement("option");
+                o.value = i;
+                o.innerText = lan[i][language];
                 if (i != "auto") {
                     this.to.append(o.cloneNode(true));
                     this.to.load();
@@ -795,7 +904,7 @@ function engine(e: string, text: string, from: string, to: string) {
             case "deepl":
                 if (!api_id.deepl.key) return;
                 fetch("https://api-free.deepl.com/v2/translate", {
-                    body: `text=${encodeURIComponent(text)}&target_lang=${to}`,
+                    body: `text=${encodeURIComponent(text)}${from ? "&source_lang=" + from : ""}&target_lang=${to}`,
                     headers: {
                         Authorization: `DeepL-Auth-Key ${api_id.deepl.key}`,
                         "Content-Type": "application/x-www-form-urlencoded",
