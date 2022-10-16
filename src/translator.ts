@@ -262,6 +262,7 @@ class item extends HTMLElement {
     }
 
     _value = "";
+    zt: HTMLElement;
     t: select;
     from: select;
     to: select;
@@ -270,6 +271,7 @@ class item extends HTMLElement {
     connectedCallback() {
         let main = document.createElement("div");
         let bar = document.createElement("div");
+        this.zt = document.createElement("div");
         this.t = document.createElement("e-select") as select;
         this.from = document.createElement("e-select") as select;
         this.to = document.createElement("e-select") as select;
@@ -286,9 +288,11 @@ class item extends HTMLElement {
             this.reload_lan();
         };
 
+        this.zt.classList.add("zt_normal");
+
         this.append(main);
         main.append(bar);
-        bar.append(this.t, this.from, this.to);
+        bar.append(this.zt, this.t, this.from, this.to);
 
         this.c = document.createElement("div");
         this.append(this.c);
@@ -338,12 +342,17 @@ class item extends HTMLElement {
 
     set text(t: string) {
         let lans = o[this.t.value].lan;
-        engine(this.t.value, t, lans[this.from.value], lans[this.to.value]).then((v) => {
-            console.log(v);
-            this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
-                el.text = v;
+        engine(this.t.value, t, lans[this.from.value], lans[this.to.value])
+            .then((v) => {
+                console.log(v);
+                this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
+                    el.text = v;
+                });
+                this.zt.classList.add("zt_ok");
+            })
+            .catch((e) => {
+                this.zt.classList.add("zt_error");
             });
-        });
     }
 
     set e(t: string) {

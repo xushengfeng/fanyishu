@@ -66,7 +66,22 @@ e-translator > div:nth-child(1) {
     @apply relative w-fit h-fit;
 }
 e-translator > div:nth-child(1) > div:nth-child(1) {
-    @apply relative flex shadow-md p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
+    @apply relative flex items-center shadow-md p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
+}
+e-translator > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    @apply w-2 h-2 shadow-sm rounded-full;
+}
+.zt_normal {
+    @apply bg-gray-300;
+}
+.zt_ok {
+    @apply bg-green-400;
+}
+.zt_warning {
+    @apply bg-yellow-400;
+}
+.zt_error {
+    @apply bg-red-400;
 }
 e-translator > div:nth-child(1):hover .add_b {
     @apply -bottom-2 bg-green-300 pointer-events-auto;
