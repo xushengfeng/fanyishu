@@ -313,11 +313,16 @@ class item extends HTMLElement {
             let t = document.createElement("e-translator") as item;
             t.id = "x";
             this.after(t);
+            t.t = this.t;
+            t.reload_lan();
         };
         add_c.onclick = () => {
             let t = document.createElement("e-translator") as item;
             t.id = "x";
             this.c.append(t);
+            t.t = this.t;
+            t.reload_lan();
+            t.from_lan = this.to.value;
         };
         rm.onclick = () => {
             if (document.querySelectorAll("e-translator").length > 1) this.remove();
