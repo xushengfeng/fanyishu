@@ -369,6 +369,7 @@ class item extends HTMLElement {
     check_from(t: string) {
         if (
             this.parentElement != document.getElementById("translators") &&
+            t != "auto" &&
             t != (this.parentElement.parentElement as item).to.value
         ) {
             this.zt.classList.add("zt_waring");
