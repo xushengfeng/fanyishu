@@ -423,7 +423,7 @@ render_tree(tree, document.getElementById("translators"));
 translate(text);
 
 function engine(e: string, text: string, from: string, to: string) {
-    return new Promise((re: (text: string) => void) => {
+    return new Promise((re: (text: string) => void, rj) => {
         switch (e) {
             case "youdao":
                 fetch(`http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=${encodeURIComponent(text)}`, {
@@ -440,7 +440,8 @@ function engine(e: string, text: string, from: string, to: string) {
                             l.push(t);
                         }
                         re(l.join("\n"));
-                    });
+                    })
+                    .catch(rj);
                 break;
             case "baidu":
                 if (!api_id.baidu.appid || !api_id.baidu.key) return;
@@ -458,7 +459,8 @@ function engine(e: string, text: string, from: string, to: string) {
                     .then((t) => {
                         let l = t.trans_result.map((v) => v.dst);
                         re(l.join("\n"));
-                    });
+                    })
+                    .catch(rj);
                 break;
             case "deepl":
                 if (!api_id.deepl.key) return;
@@ -474,7 +476,8 @@ function engine(e: string, text: string, from: string, to: string) {
                     .then((t) => {
                         let l = t.translations.map((x) => x.text);
                         re(l.join("\n"));
-                    });
+                    })
+                    .catch(rj);
                 break;
             case "caiyun":
                 if (!api_id.caiyun.token) return;
@@ -495,7 +498,8 @@ function engine(e: string, text: string, from: string, to: string) {
                     .then((t) => {
                         console.log(t);
                         re(t.target.join("\n"));
-                    });
+                    })
+                    .catch(rj);
                 break;
             case "bing":
                 if (!api_id.bing.key) return;
@@ -522,7 +526,8 @@ function engine(e: string, text: string, from: string, to: string) {
                     .then((v) => v.json())
                     .then((t) => {
                         re(t[0].translations[0].text);
-                    });
+                    })
+                    .catch(rj);
                 break;
 
             default:
