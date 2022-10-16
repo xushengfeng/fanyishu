@@ -210,6 +210,8 @@ class select extends HTMLElement {
         if (this.more.querySelector(":scope > *")) {
             this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
             this.more.querySelector(":scope > *").classList.add("e-select-selected");
+        } else {
+            this.show.innerHTML = "";
         }
 
         this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
