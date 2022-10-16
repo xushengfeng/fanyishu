@@ -207,26 +207,36 @@ class select extends HTMLElement {
     load() {
         this.more.innerHTML = this.innerHTML;
 
-        if (this.more.querySelector(":scope > *")) {
-            this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
-            this.more.querySelector(":scope > *").classList.add("e-select-selected");
-        } else {
-            this.show.innerHTML = "";
-        }
-
+        let has_value = null as HTMLElement;
         this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
+            let value = el.getAttribute("value") || el.innerText;
             el.onclick = () => {
                 this.show.innerHTML = el.innerHTML;
                 this.more.querySelectorAll(".e-select-selected").forEach((i) => {
                     i.classList.remove("e-select-selected");
                 });
                 el.classList.add("e-select-selected");
-                let value = el.getAttribute("value") || el.innerText;
                 this._value = value;
                 this.more.classList.add("e-select-hide");
                 this.dispatchEvent(new Event("input"));
             };
+            if (value == this._value) {
+                has_value = el;
+            }
         });
+        if (has_value) {
+            has_value.classList.add("e-select-selected");
+            this.show.innerHTML = has_value.innerHTML;
+        } else {
+            if (this.more.querySelector(":scope > *")) {
+                this.show.innerHTML = this.more.querySelector(":scope > *").innerHTML;
+                this.more.querySelector(":scope > *").classList.add("e-select-selected");
+                this._value = this.more.querySelector(":scope > *").getAttribute("value");
+            } else {
+                this.show.innerHTML = "";
+                this._value = null;
+            }
+        }
     }
     set value(t: string) {
         let xel = null as HTMLElement;
