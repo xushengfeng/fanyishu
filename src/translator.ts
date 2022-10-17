@@ -634,11 +634,21 @@ const lan = {
     zu: { "zh-Hans": "南非祖鲁语" },
 } as { [lan: string]: { "zh-Hans": string } };
 
+function uuid() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+        .replace(/[xy]/g, (c) => {
+            var r = (Math.random() * 16) | 0,
+                v = c == "x" ? r : (r & 0x3) | 0x8;
+            return v.toString(16).slice(0, 7);
+        })
+        .slice(0, 7);
+}
+
 type item_type = { id: string; e: string; from: string; to: string; children?: item_type[] };
 
 let trees: { [id: string]: item_type[] } = JSON.parse(localStorage.getItem("trees"));
 if (!trees) {
-    trees = { 默认: [{ id: "a", e: "caiyun", from: "cn", to: "en" }] };
+    trees = { 默认: [{ id: uuid(), e: "caiyun", from: "cn", to: "en" }] };
 }
 if (!trees[mode]) mode = "默认";
 let tree: item_type[] = trees[mode];
@@ -850,7 +860,7 @@ class item extends HTMLElement {
 
         add_b.onclick = () => {
             let t = document.createElement("e-translator") as item;
-            t.id = "x";
+            t.id = uuid();
             this.after(t);
             t.e = this.t.value;
             t.from_lan = this.from.value;
@@ -858,7 +868,7 @@ class item extends HTMLElement {
         };
         add_c.onclick = () => {
             let t = document.createElement("e-translator") as item;
-            t.id = "x";
+            t.id = uuid();
             this.c.append(t);
             t.e = this.t.value;
             t.from_lan = this.to.value;
