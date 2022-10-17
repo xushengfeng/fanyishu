@@ -659,10 +659,10 @@ function render_tree(tree: item_type[], pel: HTMLElement) {
         let t = document.createElement("e-translator") as item;
         t.id = i.id;
         pel.append(t);
-        if (i.children) t.子翻译器 = i.children;
         t.e = i.e;
         t.from.value = i.from;
         t.to.value = i.to;
+        if (i.children) t.子翻译器 = i.children;
     }
 }
 
