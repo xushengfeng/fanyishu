@@ -654,6 +654,7 @@ if (!trees[mode]) mode = "默认";
 let tree: item_type[] = trees[mode];
 
 function render_tree(tree: item_type[], pel: HTMLElement) {
+    pel.innerHTML = "";
     for (let i of tree) {
         let t = document.createElement("e-translator") as item;
         t.id = i.id;
@@ -1036,6 +1037,32 @@ function translate(text: string) {
         }
     }, 800);
 }
+
+const change_tree = document.getElementById("change_tree") as select;
+for (let i in trees) {
+    let o = document.createElement("option");
+    o.value = i;
+    o.innerText = i;
+    change_tree.append(o);
+    change_tree.load();
+}
+change_tree.value = mode;
+document.getElementById("change_tree").oninput = () => {
+    mode = change_tree.value;
+    render_tree(trees[change_tree.value], document.getElementById("translators"));
+};
+
+document.getElementById("add_tree").onclick = () => {
+    mode = uuid();
+    trees[mode] = JSON.parse(JSON.stringify(tree));
+    let o = document.createElement("option");
+    o.value = mode;
+    o.innerText = mode;
+    change_tree.append(o);
+    change_tree.load();
+    change_tree.value = mode;
+    localStorage.setItem("trees", JSON.stringify(trees));
+};
 
 render_tree(tree, document.getElementById("translators"));
 
