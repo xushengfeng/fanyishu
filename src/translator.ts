@@ -1023,11 +1023,18 @@ function get_item(id: string) {
     return document.getElementById(id) as item;
 }
 
+let t_time = NaN;
+
 function translate(text: string) {
-    text_result.innerHTML = "";
-    for (let i of tree) {
-        get_item(i.id).text = text;
-    }
+    if (!text) return;
+
+    clearTimeout(t_time);
+    t_time = setTimeout(() => {
+        text_result.innerHTML = "";
+        for (let i of tree) {
+            get_item(i.id).text = text;
+        }
+    }, 800);
 }
 
 render_tree(tree, document.getElementById("translators"));
