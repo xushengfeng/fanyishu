@@ -67,10 +67,10 @@ e-translator {
 }
 
 e-translator > div:nth-child(1) {
-    @apply relative w-fit h-fit;
+    @apply relative w-fit h-fit shadow-md rounded-lg;
 }
 e-translator > div:nth-child(1) > div:nth-child(1) {
-    @apply relative flex items-center shadow-md p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
+    @apply relative flex items-center p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
 }
 e-translator > div:nth-child(1) > div:nth-child(1) > div:last-child {
     @apply relative w-2 h-2 shadow-sm rounded-full;
