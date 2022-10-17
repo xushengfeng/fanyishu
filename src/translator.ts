@@ -720,7 +720,7 @@ class select extends HTMLElement {
         let has_value = null as HTMLElement;
         this.more.querySelectorAll(":scope > *").forEach((el: HTMLElement) => {
             let value = el.getAttribute("value") || el.innerText;
-            el.onclick = () => {
+            el.onpointerdown = () => {
                 this.show.innerHTML = el.innerHTML;
                 this.more.querySelectorAll(".e-select-selected").forEach((i) => {
                     i.classList.remove("e-select-selected");
