@@ -688,19 +688,23 @@ class select extends HTMLElement {
         style.innerHTML = css;
         shadow.append(style);
 
-        this.more = document.createElement("div");
-        this.more.classList.add("e-select-more");
-        this.more.innerHTML = this.innerHTML;
+        this.more = document.querySelector(".e-select-more");
 
         this.show = document.createElement("div");
         this.show.classList.add("e-select-show");
         this.load();
         shadow.append(this.show);
-        shadow.append(this.more);
 
         this.more.classList.add("e-select-hide");
 
         this.show.onclick = () => {
+            if (this.more.classList.contains("e-select-hide")) {
+                this.more.innerHTML = this.innerHTML;
+                let rect0 = this.getBoundingClientRect();
+                this.more.style.left = rect0.left + "px";
+                this.more.style.top = rect0.bottom + "px";
+                this.load();
+            }
             this.more.classList.toggle("e-select-hide");
         };
 

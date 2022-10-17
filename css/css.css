@@ -59,7 +59,7 @@
 }
 
 #translators {
-    @apply flex gap-2 flex-col p-2 overflow-auto;
+    @apply flex gap-2 flex-col p-2 overflow-auto relative;
 }
 
 e-translator {
@@ -121,7 +121,7 @@ e-select {
     @apply relative;
 }
 .e-select-more {
-    @apply absolute bg-white shadow-md p-1 rounded transition-opacity max-h-40 overflow-y-auto;
+    @apply absolute bg-white shadow-md p-1 rounded transition-opacity max-h-40 overflow-y-auto z-10;
 }
 .e-select-more > * {
     @apply transition rounded-sm;
