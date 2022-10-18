@@ -153,3 +153,10 @@ e-select {
     opacity: 0;
     pointer-events: none;
 }
+
+#text {
+    @apply flex flex-col gap-2 overflow-y-auto p-2;
+}
+#text > div {
+    @apply shadow-md p-2 rounded-lg;
+}
