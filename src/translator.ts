@@ -44,6 +44,7 @@ function save_setting() {
     api_id.caiyun.token = get_v("caiyun_key").value;
     api_id.bing.key = get_v("bing_key").value;
     localStorage.setItem("fanyi", JSON.stringify(api_id));
+    setting.classList.add("setting_hide");
 }
 document.getElementById("save_setting").onclick = save_setting;
 
