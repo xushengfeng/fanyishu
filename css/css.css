@@ -61,6 +61,22 @@
     pointer-events: none;
 }
 
+#密码 {
+    @apply flex flex-col gap-6;
+}
+#密码 > div > h2 {
+    @apply font-medium text-xl;
+}
+#密码 > div > div {
+    @apply flex flex-col;
+}
+#密码 > div a {
+    @apply underline;
+}
+#设置 input {
+    @apply outline-none border-2 rounded px-1 focus:border-sky-500;
+}
+
 #translators {
     @apply flex gap-2 flex-col p-2 overflow-auto relative;
 }
