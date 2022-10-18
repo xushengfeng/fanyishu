@@ -1073,129 +1073,159 @@ function engine(e: string, text: string, from: string, to: string) {
     return new Promise((re: (text: string) => void, rj) => {
         switch (e) {
             case "youdao":
-                {
-                    if (!api_id.youdao.appid || !api_id.youdao.key) return;
-                    let appKey = api_id.youdao.appid;
-                    let key = api_id.youdao.key;
-                    let salt = String(new Date().getTime());
-                    let curtime = String(Math.round(new Date().getTime() / 1000));
-                    let str1 = appKey + truncate(text) + salt + curtime + key;
-                    let sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex);
-                    let data = {
-                        q: text,
-                        appKey: appKey,
-                        salt: salt,
-                        from: from,
-                        to: to,
-                        sign: sign,
-                        signType: "v3",
-                        curtime: curtime,
-                    };
-                    fetchJSONP("https://openapi.youdao.com/api?" + new URLSearchParams(data).toString())
-                        .then((v) => v.json())
-                        .then((t) => {
-                            re(t.translation.join("\n"));
-                        })
-                        .catch(rj);
-
-                    function truncate(q: string) {
-                        var len = q.length;
-                        if (len <= 20) return q;
-                        return q.substring(0, 10) + len + q.substring(len - 10, len);
-                    }
-                }
+                youdao(text, from, to).then(re).catch(rj);
                 break;
             case "baidu":
-                if (!api_id.baidu.appid || !api_id.baidu.key) return;
-                let appid = api_id.baidu.appid;
-                let key = api_id.baidu.key;
-                let salt = new Date().getTime();
-                let str1 = appid + text + salt + key;
-                let sign = MD5(str1);
-                fetch(
-                    `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(
-                        text
-                    )}&from=${from}&to=${to}&appid=${appid}&salt=${salt}&sign=${sign}`
-                )
-                    .then((v) => v.json())
-                    .then((t) => {
-                        let l = t.trans_result.map((v) => v.dst);
-                        re(l.join("\n"));
-                    })
-                    .catch(rj);
+                baidu(text, from, to).then(re).catch(rj);
                 break;
             case "deepl":
-                if (!api_id.deepl.key) return;
-                fetch("https://api-free.deepl.com/v2/translate", {
-                    body: `text=${encodeURIComponent(text)}${from ? "&source_lang=" + from : ""}&target_lang=${to}`,
-                    headers: {
-                        Authorization: `DeepL-Auth-Key ${api_id.deepl.key}`,
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    method: "POST",
-                })
-                    .then((v) => v.json())
-                    .then((t) => {
-                        let l = t.translations.map((x) => x.text);
-                        re(l.join("\n"));
-                    })
-                    .catch(rj);
+                deepl(text, from, to).then(re).catch(rj);
                 break;
             case "caiyun":
-                if (!api_id.caiyun.token) return;
-                let url = "http://api.interpreter.caiyunai.com/v1/translator";
-                let token = api_id.caiyun.token;
-                let payload = {
-                    source: text.split("\n"),
-                    trans_type: `${from}2${to}`,
-                    request_id: "demo",
-                    detect: true,
-                };
-                let headers = {
-                    "content-type": "application/json",
-                    "x-authorization": "token " + token,
-                };
-                fetch(url, { method: "POST", body: JSON.stringify(payload), headers })
-                    .then((v) => v.json())
-                    .then((t) => {
-                        console.log(t);
-                        re(t.target.join("\n"));
-                    })
-                    .catch(rj);
+                caiyun(text, from, to).then(re).catch(rj);
                 break;
             case "bing":
-                if (!api_id.bing.key) return;
-                fetch(
-                    `https://api.cognitive.microsofttranslator.com/translate?${new URLSearchParams({
-                        "api-version": "3.0",
-                        from: from,
-                        to: to,
-                    }).toString()}`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Ocp-Apim-Subscription-Key": api_id.bing.key,
-                            "Content-type": "application/json",
-                            "X-ClientTraceId": crypto.randomUUID(),
-                        },
-                        body: JSON.stringify([
-                            {
-                                text: text,
-                            },
-                        ]),
-                    }
-                )
-                    .then((v) => v.json())
-                    .then((t) => {
-                        re(t[0].translations[0].text);
-                    })
-                    .catch(rj);
+                bing(text, from, to).then(re).catch(rj);
                 break;
-
             default:
+                rj(() => {
+                    console.error("引擎不存在");
+                });
                 break;
         }
     });
 }
 
 import MD5 from "blueimp-md5";
+
+function baidu(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.baidu.appid || !api_id.baidu.key) return;
+        let appid = api_id.baidu.appid;
+        let key = api_id.baidu.key;
+        let salt = new Date().getTime();
+        let str1 = appid + text + salt + key;
+        let sign = MD5(str1);
+        fetch(
+            `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(
+                text
+            )}&from=${from}&to=${to}&appid=${appid}&salt=${salt}&sign=${sign}`
+        )
+            .then((v) => v.json())
+            .then((t) => {
+                let l = t.trans_result.map((v) => v.dst);
+                re(l.join("\n"));
+            })
+            .catch(rj);
+    });
+}
+
+function youdao(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.youdao.appid || !api_id.youdao.key) return;
+        let appKey = api_id.youdao.appid;
+        let key = api_id.youdao.key;
+        let salt = String(new Date().getTime());
+        let curtime = String(Math.round(new Date().getTime() / 1000));
+        let str1 = appKey + truncate(text) + salt + curtime + key;
+        let sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex);
+        let data = {
+            q: text,
+            appKey: appKey,
+            salt: salt,
+            from: from,
+            to: to,
+            sign: sign,
+            signType: "v3",
+            curtime: curtime,
+        };
+        fetchJSONP("https://openapi.youdao.com/api?" + new URLSearchParams(data).toString())
+            .then((v) => v.json())
+            .then((t) => {
+                re(t.translation.join("\n"));
+            })
+            .catch(rj);
+
+        function truncate(q: string) {
+            var len = q.length;
+            if (len <= 20) return q;
+            return q.substring(0, 10) + len + q.substring(len - 10, len);
+        }
+    });
+}
+
+function deepl(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.deepl.key) return;
+        fetch("https://api-free.deepl.com/v2/translate", {
+            body: `text=${encodeURIComponent(text)}${from ? "&source_lang=" + from : ""}&target_lang=${to}`,
+            headers: {
+                Authorization: `DeepL-Auth-Key ${api_id.deepl.key}`,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            method: "POST",
+        })
+            .then((v) => v.json())
+            .then((t) => {
+                let l = t.translations.map((x) => x.text);
+                re(l.join("\n"));
+            })
+            .catch(rj);
+    });
+}
+
+function caiyun(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.caiyun.token) return;
+        let url = "http://api.interpreter.caiyunai.com/v1/translator";
+        let token = api_id.caiyun.token;
+        let payload = {
+            source: text.split("\n"),
+            trans_type: `${from}2${to}`,
+            request_id: "demo",
+            detect: true,
+        };
+        let headers = {
+            "content-type": "application/json",
+            "x-authorization": "token " + token,
+        };
+        fetch(url, { method: "POST", body: JSON.stringify(payload), headers })
+            .then((v) => v.json())
+            .then((t) => {
+                console.log(t);
+                re(t.target.join("\n"));
+            })
+            .catch(rj);
+    });
+}
+
+function bing(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.bing.key) return;
+        fetch(
+            `https://api.cognitive.microsofttranslator.com/translate?${new URLSearchParams({
+                "api-version": "3.0",
+                from: from,
+                to: to,
+            }).toString()}`,
+            {
+                method: "POST",
+                headers: {
+                    "Ocp-Apim-Subscription-Key": api_id.bing.key,
+                    "Content-type": "application/json",
+                    "X-ClientTraceId": crypto.randomUUID(),
+                },
+                body: JSON.stringify([
+                    {
+                        text: text,
+                    },
+                ]),
+            }
+        )
+            .then((v) => v.json())
+            .then((t) => {
+                re(t[0].translations[0].text);
+            })
+            .catch(rj);
+    });
+}
