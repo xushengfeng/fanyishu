@@ -18,6 +18,9 @@
 .icon-pel > div {
     @apply icon-m;
 }
+.icon-pel > button {
+    @apply icon-m;
+}
 .icon-m {
     @apply h-8 w-8 relative cursor-pointer;
 }
