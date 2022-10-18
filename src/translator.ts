@@ -660,7 +660,7 @@ function render_tree(tree: item_type[], pel: HTMLElement) {
         t.id = i.id;
         pel.append(t);
         t.e = i.e;
-        t.from.value = i.from;
+        t.from_lan = i.from;
         t.to.value = i.to;
         if (i.children) t.子翻译器 = i.children;
     }
