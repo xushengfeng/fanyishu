@@ -77,6 +77,16 @@
     @apply outline-none border-2 rounded px-1 focus:border-sky-500;
 }
 
+#rename {
+    display: none;
+}
+.show_rename > e-select {
+    display: none;
+}
+.show_rename > input {
+    display: block !important;
+}
+
 #translators {
     @apply flex gap-2 flex-col p-2 overflow-auto relative;
 }

@@ -819,7 +819,6 @@ class item extends HTMLElement {
             this.t.append(op);
         }
 
-        this.reload_lan();
         this.t.oninput = () => {
             this.reload_lan();
             this.check_e(this.t.value);
@@ -1063,6 +1062,37 @@ document.getElementById("add_tree").onclick = () => {
     change_tree.load();
     change_tree.value = mode;
     localStorage.setItem("trees", JSON.stringify(trees));
+};
+
+const rename_el = document.getElementById("rename") as HTMLInputElement;
+
+document.getElementById("rename_tree").onclick = () => {
+    if (!document.getElementById("bar").classList.contains("show_rename")) {
+        const w = change_tree.offsetWidth;
+        rename_el.style.width = w + "px";
+        rename_el.value = change_tree.value;
+        setTimeout(() => {
+            rename_el.focus();
+        }, 0);
+        rename_el.setSelectionRange(0, rename_el.value.length);
+    }
+    document.getElementById("bar").classList.toggle("show_rename");
+};
+
+rename_el.onchange = () => {
+    const t = trees[mode];
+    delete trees[mode];
+    trees[rename_el.value] = t;
+    mode = rename_el.value;
+    change_tree.innerHTML = "";
+    for (let i in trees) {
+        let o = document.createElement("option");
+        o.value = i;
+        o.innerText = i;
+        change_tree.append(o);
+        change_tree.load();
+    }
+    change_tree.value = mode;
 };
 
 render_tree(tree, document.getElementById("translators"));
