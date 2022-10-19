@@ -86,7 +86,10 @@ e-translator {
 }
 
 e-translator > div:nth-child(1) {
-    @apply relative w-fit h-fit shadow-md rounded-lg;
+    @apply relative w-fit h-fit rounded-lg border-2;
+}
+e-translator > div:nth-child(1):hover {
+    @apply shadow-md;
 }
 e-translator > div:nth-child(1) > div:nth-child(1) {
     @apply relative flex items-center p-2 rounded-lg w-fit h-fit gap-1 z-10 bg-white;
