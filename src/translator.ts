@@ -1136,8 +1136,8 @@ function baidu(text: string, from: string, to: string) {
         let salt = new Date().getTime();
         let str1 = appid + text + salt + key;
         let sign = MD5(str1);
-        fetch(
-            `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(
+        fetchJSONP(
+            `https://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(
                 text
             )}&from=${from}&to=${to}&appid=${appid}&salt=${salt}&sign=${sign}`
         )
@@ -1207,7 +1207,7 @@ function deepl(text: string, from: string, to: string) {
 function caiyun(text: string, from: string, to: string) {
     return new Promise((re: (text: string) => void, rj) => {
         if (!api_id.caiyun.token) return;
-        let url = "http://api.interpreter.caiyunai.com/v1/translator";
+        let url = "https://api.interpreter.caiyunai.com/v1/translator";
         let token = api_id.caiyun.token;
         let payload = {
             source: text.split("\n"),
