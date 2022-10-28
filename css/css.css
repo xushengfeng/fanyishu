@@ -179,8 +179,7 @@ e-select {
     @apply bg-gray-100;
 }
 .e-select-hide {
-    opacity: 0;
-    pointer-events: none;
+    @apply opacity-0 pointer-events-none transition-none;
 }
 
 #text {
