@@ -7,6 +7,19 @@ const s = new URLSearchParams(decodeURIComponent(location.search));
 var text = s.get("text") || "";
 var index = "0";
 
+type item_type = { id: string; e: string; from: string; to: string; children?: item_type[] };
+
+let trees: { tree: item_type[]; name: string }[] = JSON.parse(localStorage.getItem("trees"));
+for (let t in trees) {
+    if (trees[t].name == s.get("m") || "默认") {
+        index = t;
+    }
+}
+if (!trees || !trees.length) {
+    trees = [{ name: "默认", tree: [{ id: uuid(), e: "caiyun", from: "cn", to: "en" }] }];
+}
+let tree: item_type[] = trees[0].tree;
+
 var api_id = JSON.parse(localStorage.getItem("fanyi"));
 const t_api_id = {
     youdao: { appid: "", key: "" },
@@ -24,7 +37,34 @@ if (!api_id) {
 function get_v(id: string) {
     return document.getElementById(id) as HTMLInputElement;
 }
+const trees_mane_el = document.getElementById("tree_mana");
+
+function load_trees() {
+    let main = document.createElement("div");
+    for (let tree of trees) {
+        let div = document.createElement("div");
+        let t = document.createElement("span");
+        t.innerText = tree.name;
+        let rename = document.createElement("div");
+        rename.onclick = () => {
+            tree.name = prompt(tree.name) || tree.name;
+            localStorage.setItem("trees", JSON.stringify(trees));
+        };
+        let rm = document.createElement("div");
+        rm.onclick = () => {
+            if (trees.length == 1) return;
+            trees = trees.filter((t) => t != tree);
+            div.remove();
+            localStorage.setItem("trees", JSON.stringify(trees));
+        };
+        div.append(t, rename, rm);
+        main.append(div);
+    }
+    trees_mane_el.append(main);
+}
+
 function load_setting() {
+    load_trees();
     get_v("baidu_appid").value = api_id.baidu.appid;
     get_v("baidu_key").value = api_id.baidu.key;
     get_v("youdao_appid").value = api_id.youdao.appid;
@@ -644,19 +684,6 @@ function uuid() {
         })
         .slice(0, 7);
 }
-
-type item_type = { id: string; e: string; from: string; to: string; children?: item_type[] };
-
-let trees: { tree: item_type[]; name: string }[] = JSON.parse(localStorage.getItem("trees"));
-for (let t in trees) {
-    if (trees[t].name == s.get("m") || "默认") {
-        index = t;
-    }
-}
-if (!trees || !trees.length) {
-    trees = [{ name: "默认", tree: [{ id: uuid(), e: "caiyun", from: "cn", to: "en" }] }];
-}
-let tree: item_type[] = trees[0].tree;
 
 function render_tree(tree: item_type[], pel: HTMLElement) {
     pel.innerHTML = "";
