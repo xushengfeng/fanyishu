@@ -4,6 +4,7 @@ import fetchJSONP from "fetch-jsonp";
 
 import rename_svg from "../assets/icons/rename.svg";
 import close_svg from "../assets/icons/close.svg";
+import right_svg from "../assets/icons/right.svg";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
@@ -54,6 +55,11 @@ function load_trees() {
             tree.name = prompt(tree.name) || tree.name;
             localStorage.setItem("trees", JSON.stringify(trees));
         };
+        let ex = document.createElement("div");
+        ex.innerHTML = `<img src="${right_svg}">`;
+        ex.onclick = () => {
+            navigator.clipboard.writeText(JSON.stringify(tree));
+        };
         let rm = document.createElement("div");
         rm.innerHTML = `<img src="${close_svg}">`;
         rm.onclick = () => {
@@ -62,7 +68,7 @@ function load_trees() {
             div.remove();
             localStorage.setItem("trees", JSON.stringify(trees));
         };
-        div.append(t, rename, rm);
+        div.append(t, rename, ex, rm);
         main.append(div);
     }
     trees_mane_el.append(main);
