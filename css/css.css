@@ -74,6 +74,13 @@
     @apply absolute top-0 left-0 w-5 h-5;
 }
 
+.import_tree_b {
+    @apply relative w-5 h-5 cursor-pointer;
+}
+.import_tree_b > img {
+    @apply icon w-5 h-5;
+}
+
 #密码 {
     @apply flex flex-col gap-6;
 }

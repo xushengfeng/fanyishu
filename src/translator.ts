@@ -5,6 +5,7 @@ import fetchJSONP from "fetch-jsonp";
 import rename_svg from "../assets/icons/rename.svg";
 import close_svg from "../assets/icons/close.svg";
 import right_svg from "../assets/icons/right.svg";
+import yes_svg from "../assets/icons/yes.svg";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
@@ -72,6 +73,20 @@ function load_trees() {
         main.append(div);
     }
     trees_mane_el.append(main);
+    let im_text = document.createElement("textarea");
+    let add = document.createElement("div");
+    add.classList.add("import_tree_b");
+    add.innerHTML = `<img src="${yes_svg}">`;
+    add.onclick = () => {
+        let t;
+        try {
+            t = JSON.parse(im_text.value);
+        } catch (error) {
+            im_text.value = "";
+        }
+        trees.push(t);
+    };
+    trees_mane_el.append(im_text, add);
 }
 
 function load_setting() {
