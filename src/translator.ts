@@ -1073,14 +1073,14 @@ const change_tree = document.getElementById("change_tree") as select;
 for (let i in trees) {
     let o = document.createElement("option");
     o.value = i;
-    o.innerText = i;
+    o.innerText = trees[i].name;
     change_tree.append(o);
     change_tree.load();
 }
 change_tree.value = index;
 document.getElementById("change_tree").oninput = () => {
     index = change_tree.value;
-    render_tree(trees[change_tree.value], document.getElementById("translators"));
+    render_tree(trees[change_tree.value].tree, document.getElementById("translators"));
 };
 
 document.getElementById("add_tree").onclick = () => {
