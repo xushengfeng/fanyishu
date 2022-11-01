@@ -5,7 +5,7 @@ import fetchJSONP from "fetch-jsonp";
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
 var text = s.get("text") || "";
-var mode = s.get("m") || "默认";
+var index = "0";
 
 var api_id = JSON.parse(localStorage.getItem("fanyi"));
 const t_api_id = {
@@ -647,12 +647,16 @@ function uuid() {
 
 type item_type = { id: string; e: string; from: string; to: string; children?: item_type[] };
 
-let trees: { [id: string]: item_type[] } = JSON.parse(localStorage.getItem("trees"));
-if (!trees) {
-    trees = { 默认: [{ id: uuid(), e: "caiyun", from: "cn", to: "en" }] };
+let trees: { tree: item_type[]; name: string }[] = JSON.parse(localStorage.getItem("trees"));
+for (let t in trees) {
+    if (trees[t].name == s.get("m") || "默认") {
+        index = t;
+    }
 }
-if (!trees[mode]) mode = "默认";
-let tree: item_type[] = trees[mode];
+if (!trees || !trees.length) {
+    trees = [{ name: "默认", tree: [{ id: uuid(), e: "caiyun", from: "cn", to: "en" }] }];
+}
+let tree: item_type[] = trees[0].tree;
 
 function render_tree(tree: item_type[], pel: HTMLElement) {
     pel.innerHTML = "";
@@ -679,7 +683,7 @@ function get_tree(pel: HTMLElement) {
 
 function tree_change() {
     tree = get_tree(document.getElementById("translators"));
-    trees[mode] = tree;
+    trees[index].tree = tree;
     localStorage.setItem("trees", JSON.stringify(trees));
 }
 
@@ -1046,21 +1050,21 @@ for (let i in trees) {
     change_tree.append(o);
     change_tree.load();
 }
-change_tree.value = mode;
+change_tree.value = index;
 document.getElementById("change_tree").oninput = () => {
-    mode = change_tree.value;
+    index = change_tree.value;
     render_tree(trees[change_tree.value], document.getElementById("translators"));
 };
 
 document.getElementById("add_tree").onclick = () => {
-    mode = uuid();
-    trees[mode] = JSON.parse(JSON.stringify(tree));
+    index = uuid();
+    trees[index] = JSON.parse(JSON.stringify(tree));
     let o = document.createElement("option");
-    o.value = mode;
-    o.innerText = mode;
+    o.value = index;
+    o.innerText = index;
     change_tree.append(o);
     change_tree.load();
-    change_tree.value = mode;
+    change_tree.value = index;
     localStorage.setItem("trees", JSON.stringify(trees));
 };
 
