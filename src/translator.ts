@@ -2,6 +2,9 @@ import "../css/css.css";
 import CryptoJS from "crypto-js";
 import fetchJSONP from "fetch-jsonp";
 
+import rename_svg from "../assets/icons/rename.svg";
+import close_svg from "../assets/icons/close.svg";
+
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
 var text = s.get("text") || "";
@@ -46,11 +49,13 @@ function load_trees() {
         let t = document.createElement("span");
         t.innerText = tree.name;
         let rename = document.createElement("div");
+        rename.innerHTML = `<img src="${rename_svg}">`;
         rename.onclick = () => {
             tree.name = prompt(tree.name) || tree.name;
             localStorage.setItem("trees", JSON.stringify(trees));
         };
         let rm = document.createElement("div");
+        rm.innerHTML = `<img src="${close_svg}">`;
         rm.onclick = () => {
             if (trees.length == 1) return;
             trees = trees.filter((t) => t != tree);

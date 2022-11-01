@@ -61,6 +61,19 @@
     pointer-events: none;
 }
 
+#tree_mana {
+    @apply flex gap-2 flex-col;
+}
+#tree_mana > div:nth-child(1) > div {
+    @apply flex gap-1 items-center;
+}
+#tree_mana > div:nth-child(1) > div > div {
+    @apply relative w-5 h-5 cursor-pointer;
+}
+#tree_mana > div:nth-child(1) > div > div > img {
+    @apply absolute top-0 left-0 w-5 h-5;
+}
+
 #密码 {
     @apply flex flex-col gap-6;
 }
