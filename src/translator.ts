@@ -8,6 +8,12 @@ import right_svg from "../assets/icons/right.svg";
 import yes_svg from "../assets/icons/yes.svg";
 import copy_svg from "../assets/icons/copy.svg";
 
+import baidu_svg from "../assets/other/baidu.svg";
+import youdao_svg from "../assets/other/youdao.svg";
+import bing_svg from "../assets/other/bing.svg";
+import deepl_svg from "../assets/other/deepl.svg";
+import caiyun_svg from "../assets/other/caiyun.svg";
+
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
 var text = s.get("text") || "";
@@ -180,9 +186,10 @@ document.querySelector("textarea").oninput = () => {
 
 var language = "zh-Hans";
 
-let o = {
+let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2lan: object; icon: string } } = {
     youdao: {
         t: "有道",
+        icon: youdao_svg,
         lan: [
             "auto",
             "zh-Hans",
@@ -306,6 +313,7 @@ let o = {
     },
     baidu: {
         t: "百度",
+        icon: baidu_svg,
         lan: [
             "auto",
             "zh-Hans",
@@ -357,6 +365,7 @@ let o = {
     },
     deepl: {
         t: "Deepl",
+        icon: deepl_svg,
         lan: [
             "auto",
             "bg",
@@ -457,11 +466,13 @@ let o = {
     },
     caiyun: {
         t: "彩云",
+        icon: caiyun_svg,
         lan: ["auto", "zh", "en", "ja"],
         lan2lan: {},
     },
     bing: {
         t: "必应",
+        icon: bing_svg,
         lan: [
             "af",
             "am",
@@ -577,7 +588,7 @@ let o = {
         ],
         lan2lan: {},
     },
-} as { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2lan: object } };
+};
 
 function to_e_lan(lan: string, e: string) {
     return o[e].lan2lan[lan] || lan;
@@ -899,9 +910,10 @@ class item extends HTMLElement {
         this.to = document.createElement("e-select") as select;
 
         for (let i in o) {
-            let op = document.createElement("option");
-            op.innerText = o[i].t;
-            op.value = i;
+            let op = document.createElement("div");
+            op.innerHTML = `<img src="${o[i].icon}" style="width:1.4em">`;
+            op.style.padding = "0.25em";
+            op.setAttribute("value", i);
             this.t.append(op);
         }
 
