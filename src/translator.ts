@@ -51,17 +51,20 @@ function load_trees() {
         let t = document.createElement("span");
         t.innerText = tree.name;
         let rename = document.createElement("div");
+        rename.title = "重命名";
         rename.innerHTML = `<img src="${rename_svg}">`;
         rename.onclick = () => {
             tree.name = prompt(tree.name) || tree.name;
             localStorage.setItem("trees", JSON.stringify(trees));
         };
         let ex = document.createElement("div");
+        ex.title = "复制到剪贴板";
         ex.innerHTML = `<img src="${right_svg}">`;
         ex.onclick = () => {
             navigator.clipboard.writeText(JSON.stringify(tree));
         };
         let rm = document.createElement("div");
+        rm.title = "移除";
         rm.innerHTML = `<img src="${close_svg}">`;
         rm.onclick = () => {
             if (trees.length == 1) return;
@@ -74,7 +77,9 @@ function load_trees() {
     }
     trees_mane_el.append(main);
     let im_text = document.createElement("textarea");
+    im_text.placeholder = "粘贴以导入";
     let add = document.createElement("div");
+    add.title = "确认导入";
     add.classList.add("import_tree_b");
     add.innerHTML = `<img src="${yes_svg}">`;
     add.onclick = () => {
