@@ -1035,15 +1035,8 @@ class item extends HTMLElement {
                 this.set_zt("o");
 
                 if (!this.c.querySelector("e-translator")) {
-                    let div = document.createElement("div");
-                    div.innerText = v;
-                    let copy = document.createElement("div");
-                    copy.innerHTML = `<img src="${copy_svg}">`;
-                    copy.onclick = () => {
-                        navigator.clipboard.writeText(v);
-                    };
-                    div.append(copy);
-                    text_result.append(div);
+                    texts.push({ i: this.getBoundingClientRect().y, text: v });
+                    show_translate();
                 }
             })
             .catch((e) => {
@@ -1094,6 +1087,8 @@ function get_item(id: string) {
 
 let t_time = NaN;
 
+let texts: { i: number; text: string }[] = [];
+
 function translate(text: string) {
     if (!text) {
         text_result.innerHTML = `<div style="height: 100%"></div>`;
@@ -1102,11 +1097,28 @@ function translate(text: string) {
 
     clearTimeout(t_time);
     t_time = setTimeout(() => {
+        texts = [];
         text_result.innerHTML = "";
         for (let i of tree) {
             get_item(i.id).text = text;
         }
     }, 800);
+}
+
+function show_translate() {
+    text_result.innerHTML = "";
+    let l = texts.sort((a, b) => a.i - b.i);
+    for (let i of l) {
+        let div = document.createElement("div");
+        div.innerText = i.text;
+        let copy = document.createElement("div");
+        copy.innerHTML = `<img src="${copy_svg}">`;
+        copy.onclick = () => {
+            navigator.clipboard.writeText(i.text);
+        };
+        div.append(copy);
+        text_result.append(div);
+    }
 }
 
 const change_tree = document.getElementById("change_tree") as select;
