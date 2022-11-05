@@ -36,6 +36,7 @@ const t_api_id = {
 };
 if (!api_id) {
     localStorage.setItem("fanyi", JSON.stringify(t_api_id));
+    api_id = t_api_id;
 } else {
     api_id = Object.assign(t_api_id, api_id);
     localStorage.setItem("fanyi", JSON.stringify(api_id));
