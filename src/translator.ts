@@ -81,10 +81,9 @@ function load_trees() {
         let t;
         try {
             t = JSON.parse(im_text.value);
-        } catch (error) {
-            im_text.value = "";
-        }
-        trees.push(t);
+            trees.push(t);
+        } catch (error) {}
+        im_text.value = "";
     };
     trees_mane_el.append(im_text, add);
 }
