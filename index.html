@@ -14,13 +14,13 @@
 <body class="text-xl md:text-base">
     <div id="main" class="grid gap-4 p-4 h-screen">
         <div class="icon-pel flex items-center justify-end gap-2" id="bar">
-            <e-select id="change_tree"></e-select>
-            <button id="add_tree"><img src="./assets/icons/add.svg" class="icon"></button>
-            <div id="show_setting"><img src="./assets/icons/setting.svg" class="icon"></div>
+            <e-select id="change_tree" class="cursor-pointer" title="切换树"></e-select>
+            <button id="add_tree" title="添加到新树"><img src="./assets/icons/add.svg" class="icon"></button>
+            <div id="show_setting" title="设置"><img src="./assets/icons/setting.svg" class="icon"></div>
         </div>
         <div class="p-2" id="input">
             <textarea name="i" id="i"
-                class="hover:shadow-md rounded-lg focus:border-sky-500 border-2 transition outline-none p-2 resize-none w-full h-full text-4xl md:text-base"></textarea>
+                class="hover:shadow-md rounded-lg focus:border-sky-500 border-2 transition outline-none p-2 resize-none w-full h-full text-4xl md:text-base" placeholder="输入文字以翻译"></textarea>
         </div>
         <div id="text"></div>
         <div id="translators"></div>
@@ -70,7 +70,7 @@
             <div id="down_setting"><img src="./assets/icons/setting_down.svg" class="icon"></div>
             <div id="up_setting"><img src="./assets/icons/setting_up.svg" class="icon"></div>
         </div>
-        <div id="exit_setting" class="icon-m right-4 top-4"><img src="./assets/icons/left.svg" class="icon"></div>
+        <div id="exit_setting" class="icon-m right-4 top-4" title="退出并保存设置"><img src="./assets/icons/left.svg" class="icon"></div>
     </div>
     <footer class="flex gap-4 flex-col items-center md:flex-row md:justify-evenly">
         <div id="about">
