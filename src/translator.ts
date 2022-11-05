@@ -48,7 +48,7 @@ const trees_mane_el = document.getElementById("tree_mana");
 function load_trees() {
     trees_mane_el.innerHTML = "";
     let main = document.createElement("div");
-    for (let tree of trees) {
+    trees.forEach((tree, i) => {
         let div = document.createElement("div");
         let t = document.createElement("span");
         t.innerText = tree.name;
@@ -57,7 +57,9 @@ function load_trees() {
         rename.innerHTML = `<img src="${rename_svg}">`;
         rename.onclick = () => {
             tree.name = prompt(tree.name) || tree.name;
+            t.innerText = tree.name;
             localStorage.setItem("trees", JSON.stringify(trees));
+            reload();
         };
         let ex = document.createElement("div");
         ex.title = "复制到剪贴板";
@@ -71,11 +73,26 @@ function load_trees() {
         rm.onclick = () => {
             if (trees.length == 1) return;
             trees = trees.filter((t) => t != tree);
+            if (trees.length == Number(index)) {
+                index = String(trees.length - 1);
+            }
             div.remove();
             localStorage.setItem("trees", JSON.stringify(trees));
+            reload();
         };
         div.append(t, rename, ex, rm);
         main.append(div);
+    });
+    function reload() {
+        change_tree.innerHTML = "";
+        for (let i in trees) {
+            let o = document.createElement("option");
+            o.value = i;
+            o.innerText = trees[i].name;
+            change_tree.append(o);
+            change_tree.load();
+        }
+        change_tree.value = index;
     }
     trees_mane_el.append(main);
     let im_text = document.createElement("textarea");
@@ -85,10 +102,13 @@ function load_trees() {
     add.classList.add("import_tree_b");
     add.innerHTML = `<img src="${yes_svg}">`;
     add.onclick = () => {
-        let t;
+        let t: { name: string; tree: item_type[] };
         try {
             t = JSON.parse(im_text.value);
             trees.push(t);
+            localStorage.setItem("trees", JSON.stringify(trees));
+            reload();
+            load_trees();
         } catch (error) {}
         im_text.value = "";
     };
