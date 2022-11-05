@@ -6,6 +6,7 @@ import rename_svg from "../assets/icons/rename.svg";
 import close_svg from "../assets/icons/close.svg";
 import right_svg from "../assets/icons/right.svg";
 import yes_svg from "../assets/icons/yes.svg";
+import copy_svg from "../assets/icons/copy.svg";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
@@ -1036,6 +1037,12 @@ class item extends HTMLElement {
                 if (!this.c.querySelector("e-translator")) {
                     let div = document.createElement("div");
                     div.innerText = v;
+                    let copy = document.createElement("div");
+                    copy.innerHTML = `<img src="${copy_svg}">`;
+                    copy.onclick = () => {
+                        navigator.clipboard.writeText(v);
+                    };
+                    div.append(copy);
                     text_result.append(div);
                 }
             })

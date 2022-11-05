@@ -237,7 +237,13 @@ e-select {
     grid-area: 2 / 2 / 3 / 3;
 }
 #text > div {
-    @apply border-2 p-2 rounded-lg;
+    @apply border-2 p-2 rounded-lg relative;
+}
+#text > div > div {
+    @apply absolute right-1 top-1 cursor-copy;
+}
+#text > div > div > img {
+    @apply w-4 h-4;
 }
 
 #translators {
