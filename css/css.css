@@ -53,6 +53,7 @@
 }
 
 #main {
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: min-content min-content;
 }
 
@@ -206,9 +207,39 @@ e-select {
     @apply opacity-0 pointer-events-none transition-none;
 }
 
+#bar {
+    grid-area: 1 / 1 / 2 / 3;
+}
+
+#input {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
 #text {
     @apply flex flex-col gap-2 overflow-y-auto p-2;
+    grid-area: 2 / 2 / 3 / 3;
 }
 #text > div {
     @apply shadow-md p-2 rounded-lg;
+}
+
+#translators {
+    grid-area: 3 / 1 / 4 / 3;
+}
+
+@media (max-width: 768px) {
+    #bar {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+
+    #input {
+        grid-area: 2 / 1 / 3 / 3;
+    }
+
+    #text {
+        grid-area: 3 / 1 / 4 / 3;
+    }
+    #translators {
+        grid-area: 4 / 1 / 5 / 3;
+    }
 }
