@@ -1136,8 +1136,8 @@ document.getElementById("change_tree").oninput = () => {
 };
 
 document.getElementById("add_tree").onclick = () => {
-    index = uuid();
-    trees[index] = JSON.parse(JSON.stringify(tree));
+    index = `新树 ${uuid()}`;
+    trees.push({ tree: JSON.parse(JSON.stringify(tree)) as item_type[], name: index });
     let o = document.createElement("option");
     o.value = index;
     o.innerText = index;
