@@ -97,6 +97,15 @@
 #设置 input {
     @apply outline-none border-2 rounded px-1 focus:border-sky-500;
 }
+#设置 > div:not(#exit_setting) {
+    width: 60%;
+}
+#设置 h2 {
+    @apply font-semibold text-xl;
+}
+#设置 h3 {
+    @apply font-semibold;
+}
 
 #rename {
     display: none;
