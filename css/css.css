@@ -215,6 +215,10 @@ e-select {
     grid-area: 2 / 1 / 3 / 2;
 }
 
+#input > textarea {
+    min-height: 16em;
+}
+
 #text {
     @apply flex flex-col gap-2 overflow-y-auto p-2;
     grid-area: 2 / 2 / 3 / 3;
