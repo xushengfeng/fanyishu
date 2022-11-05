@@ -1084,7 +1084,10 @@ function get_item(id: string) {
 let t_time = NaN;
 
 function translate(text: string) {
-    if (!text) return;
+    if (!text) {
+        text_result.innerHTML = `<div style="height: 100%"></div>`;
+        return;
+    }
 
     clearTimeout(t_time);
     t_time = setTimeout(() => {
