@@ -107,6 +107,10 @@
     display: block !important;
 }
 
+#exit_setting {
+    position: fixed !important;
+}
+
 #translators {
     @apply flex gap-2 flex-col p-2 overflow-auto relative;
 }

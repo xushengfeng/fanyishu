@@ -112,11 +112,11 @@ function save_setting() {
     localStorage.setItem("fanyi", JSON.stringify(api_id));
     setting.classList.add("setting_hide");
 }
-document.getElementById("save_setting").onclick = save_setting;
 
 const setting = document.getElementById("设置");
 document.getElementById("exit_setting").onclick = () => {
     setting.classList.add("setting_hide");
+    save_setting();
 };
 document.getElementById("show_setting").onclick = () => {
     setting.classList.remove("setting_hide");
