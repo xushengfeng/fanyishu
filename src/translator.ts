@@ -17,7 +17,7 @@ type item_type = { id: string; e: string; from: string; to: string; children?: i
 
 let trees: { tree: item_type[]; name: string }[] = JSON.parse(localStorage.getItem("trees"));
 for (let t in trees) {
-    if (trees[t].name == s.get("m") || "默认") {
+    if (trees[t].name == (s.get("m") || "默认")) {
         index = t;
     }
 }
