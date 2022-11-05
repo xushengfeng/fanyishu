@@ -846,6 +846,7 @@ class select extends HTMLElement {
         }
     }
     set value(t: string) {
+        this.load();
         let xel = null as HTMLElement;
         this.more.querySelectorAll(".e-select-selected").forEach((i) => {
             i.classList.remove("e-select-selected");
