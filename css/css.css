@@ -68,6 +68,9 @@
 #tree_mana > div:nth-child(1) > div {
     @apply flex gap-1 items-center;
 }
+#tree_mana > div:nth-child(1) > div > :nth-child(1) {
+    @apply flex-grow;
+}
 #tree_mana > div:nth-child(1) > div > div {
     @apply relative w-5 h-5 cursor-pointer;
 }
@@ -94,7 +97,8 @@
 #密码 > div a {
     @apply underline;
 }
-#设置 input {
+#设置 input,
+#设置 textarea {
     @apply outline-none border-2 rounded px-1 focus:border-sky-500;
 }
 #设置 > div:not(#exit_setting) {
