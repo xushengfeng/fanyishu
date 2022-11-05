@@ -46,6 +46,7 @@ function get_v(id: string) {
 const trees_mane_el = document.getElementById("tree_mana");
 
 function load_trees() {
+    trees_mane_el.innerHTML = "";
     let main = document.createElement("div");
     for (let tree of trees) {
         let div = document.createElement("div");
@@ -125,6 +126,7 @@ document.getElementById("exit_setting").onclick = () => {
 };
 document.getElementById("show_setting").onclick = () => {
     setting.classList.remove("setting_hide");
+    load_setting();
 };
 document.getElementById("down_setting").onclick = () => {
     let a = document.createElement("a");
