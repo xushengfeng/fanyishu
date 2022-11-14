@@ -177,11 +177,17 @@ document.getElementById("up_setting").onclick = () => {
     };
 };
 
-document.querySelector("textarea").value = text || "";
+const textarea = document.querySelector("textarea");
+textarea.value = text || "";
 
-document.querySelector("textarea").oninput = () => {
-    text = document.querySelector("textarea").value;
+textarea.oninput = () => {
+    text = textarea.value;
     translate(text);
+};
+
+document.getElementById("clear").onclick = () => {
+    textarea.value = "";
+    textarea.focus();
 };
 
 var language = "zh-Hans";

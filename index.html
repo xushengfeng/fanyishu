@@ -18,10 +18,12 @@
             <button id="add_tree" title="添加到新树"><img src="./assets/icons/add.svg" class="icon"></button>
             <div id="show_setting" title="设置"><img src="./assets/icons/setting.svg" class="icon"></div>
         </div>
-        <div class="p-2" id="input">
+        <div class="p-2 relative" id="input">
             <textarea name="i" id="i"
                 class="hover:shadow-md rounded-lg focus:border-sky-500 border-2 transition outline-none p-2 resize-none w-full h-full text-4xl md:text-base"
                 placeholder="输入文字以翻译"></textarea>
+            <div id="clear" class="absolute right-4 top-4 w-4 h-4 cursor-pointer"><img src="./assets/icons/close.svg"
+                    class="icon"></div>
         </div>
         <div id="text"></div>
         <div id="translators"></div>
