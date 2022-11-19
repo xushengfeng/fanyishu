@@ -122,6 +122,8 @@ function load_trees() {
     trees_mane_el.append(im_text, add);
 }
 
+const delay_el = document.getElementById("延时") as HTMLInputElement;
+
 function load_setting() {
     load_trees();
     get_v("baidu_appid").value = api_id.baidu.appid;
@@ -131,6 +133,7 @@ function load_setting() {
     get_v("deepl_key").value = api_id.deepl.key;
     get_v("caiyun_key").value = api_id.caiyun.token;
     get_v("bing_key").value = api_id.bing.key;
+    delay_el.value = localStorage.getItem("delay") || "1";
 }
 load_setting();
 
@@ -143,6 +146,7 @@ function save_setting() {
     api_id.caiyun.token = get_v("caiyun_key").value;
     api_id.bing.key = get_v("bing_key").value;
     localStorage.setItem("fanyi", JSON.stringify(api_id));
+    localStorage.setItem("delay", delay_el.value);
     setting.classList.add("setting_hide");
 }
 
@@ -1138,13 +1142,15 @@ function translate(text: string) {
     }
 
     clearTimeout(t_time);
+
+    const t = Number(localStorage.getItem("delay")) * 1000;
     t_time = setTimeout(() => {
         texts = [];
         text_result.innerHTML = "";
         for (let i of tree) {
             get_item(i.id).text = text;
         }
-    }, 800);
+    }, t || 1000);
 }
 
 function show_translate() {
