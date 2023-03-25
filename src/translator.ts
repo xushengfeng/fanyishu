@@ -13,6 +13,7 @@ import youdao_svg from "../assets/other/youdao.svg";
 import bing_svg from "../assets/other/bing.svg";
 import deepl_svg from "../assets/other/deepl.svg";
 import caiyun_svg from "../assets/other/caiyun.svg";
+import chatgpt_svg from "../assets/other/chatgpt.svg";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
@@ -39,6 +40,7 @@ const t_api_id = {
     deepl: { key: "" },
     caiyun: { token: "" },
     bing: { key: "" },
+    chatgpt: { key: "" },
 };
 if (!api_id) {
     localStorage.setItem("fanyi", JSON.stringify(t_api_id));
@@ -133,6 +135,7 @@ function load_setting() {
     get_v("deepl_key").value = api_id.deepl.key;
     get_v("caiyun_key").value = api_id.caiyun.token;
     get_v("bing_key").value = api_id.bing.key;
+    get_v("chatgpt_key").value = api_id.chatgpt.key;
     delay_el.value = localStorage.getItem("delay") || "1";
 }
 load_setting();
@@ -145,6 +148,7 @@ function save_setting() {
     api_id.deepl.key = get_v("deepl_key").value;
     api_id.caiyun.token = get_v("caiyun_key").value;
     api_id.bing.key = get_v("bing_key").value;
+    api_id.chatgpt.key = get_v("chatgpt_key").value;
     localStorage.setItem("fanyi", JSON.stringify(api_id));
     localStorage.setItem("delay", delay_el.value);
     setting.classList.add("setting_hide");
@@ -597,6 +601,13 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
             "zu",
         ],
         lan2lan: {},
+    },
+    chatgpt: {
+        t: "chatgpt",
+        icon: chatgpt_svg,
+        lan: ["auto"],
+        lan2lan: {},
+        target_lang: ["zh-Hans", "zh-Hant", "en", "ja", "es", "ru", "de", "ko"],
     },
 };
 
@@ -1217,6 +1228,9 @@ function engine(e: string, text: string, from: string, to: string) {
             case "bing":
                 bing(text, from, to).then(re).catch(rj);
                 break;
+            case "chatgpt":
+                chatgpt(text, from, to).then(re).catch(rj);
+                break;
             default:
                 rj(() => {
                     console.error("引擎不存在");
@@ -1355,6 +1369,35 @@ function bing(text: string, from: string, to: string) {
             .then((v) => v.json())
             .then((t) => {
                 re(t[0].translations[0].text);
+            })
+            .catch(rj);
+    });
+}
+
+function chatgpt(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.chatgpt.key) return;
+        let systemPrompt = "You are a translation engine that can only translate text and cannot interpret it.";
+        let userPrompt = `翻译成${lan[to]["zh-Hans"]}:\n\n${text}`;
+        fetch(`https://api.openai.com/v1/chat/completions`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${api_id.chatgpt.key}`, "content-type": "application/json" },
+            body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                temperature: 0,
+                max_tokens: 1000,
+                top_p: 1,
+                frequency_penalty: 1,
+                presence_penalty: 1,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: userPrompt },
+                ],
+            }),
+        })
+            .then((v) => v.json())
+            .then((t) => {
+                re(t.choices[0].message.content);
             })
             .catch(rj);
     });
