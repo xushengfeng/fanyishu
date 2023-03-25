@@ -38,6 +38,7 @@ const t_api_id = {
     youdao: { appid: "", key: "" },
     baidu: { appid: "", key: "" },
     deepl: { key: "" },
+    deeplx: { url: "" },
     caiyun: { token: "" },
     bing: { key: "" },
     chatgpt: { key: "" },
@@ -133,6 +134,7 @@ function load_setting() {
     get_v("youdao_appid").value = api_id.youdao.appid;
     get_v("youdao_key").value = api_id.youdao.key;
     get_v("deepl_key").value = api_id.deepl.key;
+    get_v("deeplx_url").value = api_id.deeplx.url;
     get_v("caiyun_key").value = api_id.caiyun.token;
     get_v("bing_key").value = api_id.bing.key;
     get_v("chatgpt_key").value = api_id.chatgpt.key;
@@ -146,6 +148,7 @@ function save_setting() {
     api_id.youdao.appid = get_v("youdao_appid").value;
     api_id.youdao.key = get_v("youdao_key").value;
     api_id.deepl.key = get_v("deepl_key").value;
+    api_id.deeplx.url = get_v("deeplx_url").value;
     api_id.caiyun.token = get_v("caiyun_key").value;
     api_id.bing.key = get_v("bing_key").value;
     api_id.chatgpt.key = get_v("chatgpt_key").value;
@@ -379,6 +382,107 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
     },
     deepl: {
         t: "Deepl",
+        icon: deepl_svg,
+        lan: [
+            "auto",
+            "bg",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "en",
+            "es",
+            "et",
+            "fi",
+            "fr",
+            "hu",
+            "id",
+            "it",
+            "ja",
+            "lt",
+            "lv",
+            "nl",
+            "pl",
+            "pt",
+            "ro",
+            "ru",
+            "sk",
+            "sl",
+            "sv",
+            "tr",
+            "uk",
+            "zh",
+        ],
+        target_lang: [
+            "bg",
+            "cs",
+            "da",
+            "de",
+            "el",
+            "en",
+            "en-Gb",
+            "en-Us",
+            "es",
+            "et",
+            "fi",
+            "fr",
+            "hu",
+            "id",
+            "it",
+            "ja",
+            "lt",
+            "lv",
+            "nl",
+            "pl",
+            "pt",
+            "pt-Br",
+            "pt-PT",
+            "ro",
+            "ru",
+            "sk",
+            "sl",
+            "sv",
+            "tr",
+            "uk",
+            "zh",
+        ],
+        lan2lan: {
+            auto: "",
+            bg: "BG",
+            cs: "CS",
+            da: "DA",
+            de: "DE",
+            el: "EL",
+            en: "EN",
+            "en-Gb": "EN-GB",
+            "en-Us": "EN-US",
+            es: "ES",
+            et: "ET",
+            fi: "FI",
+            fr: "FR",
+            hu: "HU",
+            id: "ID",
+            it: "IT",
+            ja: "JA",
+            lt: "LT",
+            lv: "LV",
+            nl: "NL",
+            pl: "PL",
+            pt: "PT",
+            "pt-Br": "PT-BR",
+            "pt-PT": "PT-PT",
+            ro: "RO",
+            ru: "RU",
+            sk: "SK",
+            sl: "SL",
+            sv: "SV",
+            tr: "TR",
+            uk: "UK",
+            zh: "ZH",
+        },
+    },
+    deeplx: {
+        t: "DeeplX",
         icon: deepl_svg,
         lan: [
             "auto",
@@ -1222,6 +1326,9 @@ function engine(e: string, text: string, from: string, to: string) {
             case "deepl":
                 deepl(text, from, to).then(re).catch(rj);
                 break;
+            case "deeplx":
+                deeplx(text, from, to).then(re).catch(rj);
+                break;
             case "caiyun":
                 caiyun(text, from, to).then(re).catch(rj);
                 break;
@@ -1313,6 +1420,24 @@ function deepl(text: string, from: string, to: string) {
             .then((t) => {
                 let l = t.translations.map((x) => x.text);
                 re(l.join("\n"));
+            })
+            .catch(rj);
+    });
+}
+function deeplx(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.deeplx.url) return;
+        fetch(api_id.deeplx.url, {
+            body: JSON.stringify({
+                source_lang: from,
+                target_lang: to,
+                text: text,
+            }),
+            method: "POST",
+        })
+            .then((v) => v.json())
+            .then((t) => {
+                re(t.data);
             })
             .catch(rj);
     });
