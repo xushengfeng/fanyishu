@@ -14,6 +14,7 @@ import bing_svg from "../assets/other/bing.svg";
 import deepl_svg from "../assets/other/deepl.svg";
 import caiyun_svg from "../assets/other/caiyun.svg";
 import chatgpt_svg from "../assets/other/chatgpt.svg";
+import niu_svg from "../assets/other/niu.svg";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
 
@@ -42,6 +43,7 @@ const t_api_id = {
     caiyun: { token: "" },
     bing: { key: "" },
     chatgpt: { key: "" },
+    niu: { key: "" },
 };
 if (!api_id) {
     localStorage.setItem("fanyi", JSON.stringify(t_api_id));
@@ -138,6 +140,7 @@ function load_setting() {
     get_v("caiyun_key").value = api_id.caiyun.token;
     get_v("bing_key").value = api_id.bing.key;
     get_v("chatgpt_key").value = api_id.chatgpt.key;
+    get_v("niu_key").value = api_id.niu.key;
     delay_el.value = localStorage.getItem("delay") || "1";
 }
 load_setting();
@@ -152,6 +155,7 @@ function save_setting() {
     api_id.caiyun.token = get_v("caiyun_key").value;
     api_id.bing.key = get_v("bing_key").value;
     api_id.chatgpt.key = get_v("chatgpt_key").value;
+    api_id.niu.key = get_v("niu_key").value;
     localStorage.setItem("fanyi", JSON.stringify(api_id));
     localStorage.setItem("delay", delay_el.value);
     setting.classList.add("setting_hide");
@@ -712,6 +716,130 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
         lan: ["auto"],
         lan2lan: {},
         target_lang: ["zh-Hans", "zh-Hant", "en", "ja", "es", "ru", "de", "ko"],
+    },
+    niu: {
+        t: "小牛翻译",
+        icon: niu_svg,
+        lan: [
+            "sq",
+            "ar",
+            "am",
+            "az",
+            "ga",
+            "et",
+            "or",
+            "ba",
+            "eu",
+            "be",
+            "mww",
+            "bg",
+            "is",
+            "pl",
+            "bs",
+            "fa",
+            "tt",
+            "da",
+            "de",
+            "dv",
+            "ru",
+            "fr",
+            "fo",
+            "fil",
+            "fj",
+            "fi",
+            "km",
+            "fy",
+            "gu",
+            "ka",
+            "kk",
+            "ht",
+            "ko",
+            "ha",
+            "nl",
+            "ky",
+            "gl",
+            "ca",
+            "cs",
+            "kn",
+            "co",
+            "otq",
+            "hr",
+            "ku",
+            "la",
+            "lv",
+            "lo",
+            "lt",
+            "lb",
+            "ro",
+            "mg",
+            "mt",
+            "mr",
+            "ml",
+            "ms",
+            "mk",
+            "mi",
+            "mn",
+            "my",
+            "bn",
+            "af",
+            "xh",
+            "zu",
+            "ne",
+            "no",
+            "pa",
+            "pt",
+            "ps",
+            "ny",
+            "ja",
+            "sv",
+            "sm",
+            "st",
+            "si",
+            "eo",
+            "sk",
+            "sl",
+            "sw",
+            "gd",
+            "so",
+            "tg",
+            "ty",
+            "te",
+            "ta",
+            "th",
+            "to",
+            "tr",
+            "tk",
+            "ur",
+            "uk",
+            "uz",
+            "cy",
+            "es",
+            "he",
+            "el",
+            "haw",
+            "sd",
+            "hu",
+            "sn",
+            "ceb",
+            "hy",
+            "ig",
+            "it",
+            "yi",
+            "hi",
+            "su",
+            "id",
+            "en",
+            "yua",
+            "yo",
+            "vi",
+            "yue",
+            "ti",
+            "zh",
+        ],
+        lan2lan: {
+            "zh-Hant": "cht",
+            // ["acu","agr","ake","amu","ee","ojb","om","os","ifb","aym","knj","ify","acr","amk","bdu","adh","any","cpb","efi","ach","ish","bin","tpi","bsn","ber","bi","bem","pot","br","poh","bam","map","bba","bus","bqp","bnp","bch","bno","bqj","bdh","ptu","bfa","cbl","gbo","bas","bum","pag","bci","bhw","btx","pon","bzj","gug","cha","cv","tn","ts","che","ccp","cdf","tsc","tet","dik","dyu","tbz","mps","tih","duo","ada","dua","tdt","dhv","tiv","djk","enx","nzi","nij","nyn","ndc","ndo","cfm","gur","kea","quw","kg","jy","gub","gof","xsm","krs","guw","swc","gym","me","cnh","hui","hlb","her","quc","gbi","gil","kac","gaa","kik","kmb","cab","kab","cjp","cak","kek","cni","cop","kbh","ckb","ksd","quz","kpg","crh","xal","kbo","keo","cki","pss","kle","qxr","rar","kbp","kam","kqn","wes","rw","rn","ln","lg","dop","rmn","ngl","rug","lsi","ond","loz","lua","lub","lun","rnd","lue","gv","mhr","mam","mo","mni","meu","mah","mrw","mdy","mad","mos","muv","lus","mfe","umb","arn","nhg","azb","quh","lnd","fuv","nop","ntm","nyy","niu","nia","nba","nyu","nav","nyk","pcm","pap","pck","ata","pis","tw","chr","chq","cas","cjk","cce","chk","sr","crs","sg","mrj","jiv","swp","ssx","spy","huv","jmc","srm","sxn","seh","kwy","sop","tzo","tig","tmh","tpm","ctd","tyv","iou","tex","lcm","teo","tvl","tll","tgl","tum","toj","ttj","wal","war","ve","wol","udm","ppk","usp","wlx","prk","wsk","wrs","vun","wls","urh","mau","guc","shi","syc","hwc","hmo","lcp","sid","mbb","shp","ssd","gnw","kyu","hil","jac","ace","jv","ikk","izz","pil","jae","yon","zyb","byr","iso","iba","ilo","ibg","yap","cht","dz","ifa","czt","dtp","bcl","tzh","zne"]
+        },
     },
 };
 
@@ -1338,6 +1466,9 @@ function engine(e: string, text: string, from: string, to: string) {
             case "chatgpt":
                 chatgpt(text, from, to).then(re).catch(rj);
                 break;
+            case "niu":
+                niu(text, from, to).then(re).catch(rj);
+                break;
             default:
                 rj(() => {
                     console.error("引擎不存在");
@@ -1523,6 +1654,31 @@ function chatgpt(text: string, from: string, to: string) {
             .then((v) => v.json())
             .then((t) => {
                 re(t.choices[0].message.content);
+            })
+            .catch(rj);
+    });
+}
+
+function niu(text: string, from: string, to: string) {
+    return new Promise((re: (text: string) => void, rj) => {
+        if (!api_id.chatgpt.key) return;
+        const data = {
+            from: from,
+            to: to,
+            apikey: api_id.niu.key,
+            src_text: text,
+        };
+
+        fetch("https://api.niutrans.com/NiuTransServer/translation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                re(result.tgt_text);
             })
             .catch(rj);
     });
