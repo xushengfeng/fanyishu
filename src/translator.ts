@@ -34,183 +34,23 @@ if (!trees || !trees.length) {
 }
 let tree: item_type[] = trees[0].tree;
 
-var api_id = JSON.parse(localStorage.getItem("fanyi"));
-const t_api_id = {
-    youdao: { appid: "", key: "" },
-    baidu: { appid: "", key: "" },
-    deepl: { key: "" },
-    deeplx: { url: "" },
-    caiyun: { token: "" },
-    bing: { key: "" },
-    chatgpt: { key: "" },
-    niu: { key: "" },
-};
-if (!api_id) {
-    localStorage.setItem("fanyi", JSON.stringify(t_api_id));
-    api_id = t_api_id;
-} else {
-    api_id = Object.assign(t_api_id, api_id);
-    localStorage.setItem("fanyi", JSON.stringify(api_id));
-}
-function get_v(id: string) {
-    return document.getElementById(id) as HTMLInputElement;
-}
-const trees_mane_el = document.getElementById("tree_mana");
-
-function load_trees() {
-    trees_mane_el.innerHTML = "";
-    let main = document.createElement("div");
-    trees.forEach((tree, i) => {
-        let div = document.createElement("div");
-        let t = document.createElement("span");
-        t.innerText = tree.name;
-        let rename = document.createElement("div");
-        rename.title = "重命名";
-        rename.innerHTML = `<img src="${rename_svg}">`;
-        rename.onclick = () => {
-            tree.name = prompt(tree.name) || tree.name;
-            t.innerText = tree.name;
-            localStorage.setItem("trees", JSON.stringify(trees));
-            reload();
-        };
-        let ex = document.createElement("div");
-        ex.title = "复制到剪贴板";
-        ex.innerHTML = `<img src="${right_svg}">`;
-        ex.onclick = () => {
-            navigator.clipboard.writeText(JSON.stringify(tree));
-        };
-        let rm = document.createElement("div");
-        rm.title = "移除";
-        rm.innerHTML = `<img src="${close_svg}">`;
-        rm.onclick = () => {
-            if (trees.length == 1) return;
-            trees = trees.filter((t) => t != tree);
-            if (trees.length == Number(index)) {
-                index = String(trees.length - 1);
-            }
-            div.remove();
-            localStorage.setItem("trees", JSON.stringify(trees));
-            reload();
-        };
-        div.append(t, rename, ex, rm);
-        main.append(div);
-    });
-    function reload() {
-        change_tree.innerHTML = "";
-        for (let i in trees) {
-            let o = document.createElement("option");
-            o.value = i;
-            o.innerText = trees[i].name;
-            change_tree.append(o);
-            change_tree.load();
-        }
-        change_tree.value = index;
-    }
-    trees_mane_el.append(main);
-    let im_text = document.createElement("textarea");
-    im_text.placeholder = "粘贴以导入";
-    let add = document.createElement("div");
-    add.title = "确认导入";
-    add.classList.add("import_tree_b");
-    add.innerHTML = `<img src="${yes_svg}">`;
-    add.onclick = () => {
-        let t: { name: string; tree: item_type[] };
-        try {
-            t = JSON.parse(im_text.value);
-            trees.push(t);
-            localStorage.setItem("trees", JSON.stringify(trees));
-            reload();
-            load_trees();
-        } catch (error) {}
-        im_text.value = "";
+let engine_config: {
+    [name: string]: {
+        t: string;
+        key: { name: string; text?: string }[];
+        help?: { text: string; src: string };
+        lan: string[];
+        target_lang?: string[];
+        lan2lan: object;
+        icon: string;
+        f: (text: string, from: string, to: string) => Promise<string>;
     };
-    trees_mane_el.append(im_text, add);
-}
-
-const delay_el = document.getElementById("延时") as HTMLInputElement;
-
-function load_setting() {
-    load_trees();
-    get_v("baidu_appid").value = api_id.baidu.appid;
-    get_v("baidu_key").value = api_id.baidu.key;
-    get_v("youdao_appid").value = api_id.youdao.appid;
-    get_v("youdao_key").value = api_id.youdao.key;
-    get_v("deepl_key").value = api_id.deepl.key;
-    get_v("deeplx_url").value = api_id.deeplx.url;
-    get_v("caiyun_key").value = api_id.caiyun.token;
-    get_v("bing_key").value = api_id.bing.key;
-    get_v("chatgpt_key").value = api_id.chatgpt.key;
-    get_v("niu_key").value = api_id.niu.key;
-    delay_el.value = localStorage.getItem("delay") || "1";
-}
-load_setting();
-
-function save_setting() {
-    api_id.baidu.appid = get_v("baidu_appid").value;
-    api_id.baidu.key = get_v("baidu_key").value;
-    api_id.youdao.appid = get_v("youdao_appid").value;
-    api_id.youdao.key = get_v("youdao_key").value;
-    api_id.deepl.key = get_v("deepl_key").value;
-    api_id.deeplx.url = get_v("deeplx_url").value;
-    api_id.caiyun.token = get_v("caiyun_key").value;
-    api_id.bing.key = get_v("bing_key").value;
-    api_id.chatgpt.key = get_v("chatgpt_key").value;
-    api_id.niu.key = get_v("niu_key").value;
-    localStorage.setItem("fanyi", JSON.stringify(api_id));
-    localStorage.setItem("delay", delay_el.value);
-    setting.classList.add("setting_hide");
-}
-
-const setting = document.getElementById("设置");
-document.getElementById("exit_setting").onclick = () => {
-    setting.classList.add("setting_hide");
-    save_setting();
-};
-document.getElementById("show_setting").onclick = () => {
-    setting.classList.remove("setting_hide");
-    load_setting();
-};
-document.getElementById("down_setting").onclick = () => {
-    let a = document.createElement("a");
-    let blob = new Blob([JSON.stringify(JSON.parse(localStorage.getItem("fanyi")), null, 4)]);
-    a.download = `eSearch-translator-key.json`;
-    a.href = URL.createObjectURL(blob);
-    a.click();
-    URL.revokeObjectURL(String(blob));
-};
-document.getElementById("up_setting").onclick = () => {
-    let file = document.createElement("input");
-    file.type = "file";
-    file.click();
-    file.oninput = () => {
-        let reader = new FileReader();
-        reader.onload = () => {
-            localStorage.setItem("fanyi", <string>reader.result);
-            load_setting();
-        };
-        reader.readAsText(file.files[0]);
-    };
-};
-
-const textarea = document.querySelector("textarea");
-textarea.value = text || "";
-
-textarea.oninput = () => {
-    text = textarea.value;
-    translate(text);
-};
-
-document.getElementById("clear").onclick = () => {
-    textarea.value = "";
-    textarea.focus();
-};
-
-var language = "zh-Hans";
-
-let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2lan: object; icon: string } } = {
+} = {
     youdao: {
         t: "有道",
         icon: youdao_svg,
+        key: [{ name: "appid" }, { name: "key" }],
+        help: { text: "有道api申请", src: "https://ai.youdao.com/product-fanyi-text.s" },
         lan: [
             "auto",
             "zh-Hans",
@@ -331,10 +171,13 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
             "zh-Hant": "zh-CHT",
             "ko-Kr": "ko",
         },
+        f: youdao,
     },
     baidu: {
         t: "百度",
         icon: baidu_svg,
+        key: [{ name: "appid" }, { name: "key" }],
+        help: { text: "百度api申请", src: "https://fanyi-api.baidu.com/product/11" },
         lan: [
             "auto",
             "zh-Hans",
@@ -383,10 +226,13 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
             sv: "swe",
             vi: "vie",
         },
+        f: baidu,
     },
     deepl: {
         t: "Deepl",
         icon: deepl_svg,
+        key: [{ name: "key" }],
+        help: { text: "Deepl api申请", src: "https://www.deepl.com/pro-api?cta=header-pro-api" },
         lan: [
             "auto",
             "bg",
@@ -484,10 +330,12 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
             uk: "UK",
             zh: "ZH",
         },
+        f: deepl,
     },
     deeplx: {
         t: "DeeplX",
         icon: deepl_svg,
+        key: [{ name: "url" }],
         lan: [
             "auto",
             "bg",
@@ -585,16 +433,25 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
             uk: "UK",
             zh: "ZH",
         },
+        f: deeplx,
     },
     caiyun: {
         t: "彩云",
         icon: caiyun_svg,
+        key: [{ name: "token" }],
+        help: { text: "彩云api申请", src: "https://docs.caiyunapp.com/blog/2018/09/03/lingocloud-api/" },
         lan: ["auto", "zh", "en", "ja"],
         lan2lan: {},
+        f: caiyun,
     },
     bing: {
         t: "必应",
         icon: bing_svg,
+        key: [{ name: "key" }],
+        help: {
+            text: "必应api申请",
+            src: "https://learn.microsoft.com/zh-cn/azure/cognitive-services/translator/how-to-create-translator-resource#authentication-keys-and-endpoint-url",
+        },
         lan: [
             "af",
             "am",
@@ -709,17 +566,23 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
             "zu",
         ],
         lan2lan: {},
+        f: bing,
     },
     chatgpt: {
         t: "chatgpt",
         icon: chatgpt_svg,
+        key: [{ name: "key" }],
+        help: { text: "chatgpt api申请", src: "https://platform.openai.com/account/api-keys" },
         lan: ["auto"],
         lan2lan: {},
         target_lang: ["zh-Hans", "zh-Hant", "en", "ja", "es", "ru", "de", "ko"],
+        f: chatgpt,
     },
     niu: {
         t: "小牛翻译",
         icon: niu_svg,
+        key: [{ name: "key" }],
+        help: { text: "小牛api申请", src: "https://niutrans.com/documents/contents/beginning_guide/6" },
         lan: [
             "sq",
             "ar",
@@ -840,11 +703,194 @@ let o: { [lan: string]: { t: string; lan: string[]; target_lang?: string[]; lan2
             "zh-Hant": "cht",
             // ["acu","agr","ake","amu","ee","ojb","om","os","ifb","aym","knj","ify","acr","amk","bdu","adh","any","cpb","efi","ach","ish","bin","tpi","bsn","ber","bi","bem","pot","br","poh","bam","map","bba","bus","bqp","bnp","bch","bno","bqj","bdh","ptu","bfa","cbl","gbo","bas","bum","pag","bci","bhw","btx","pon","bzj","gug","cha","cv","tn","ts","che","ccp","cdf","tsc","tet","dik","dyu","tbz","mps","tih","duo","ada","dua","tdt","dhv","tiv","djk","enx","nzi","nij","nyn","ndc","ndo","cfm","gur","kea","quw","kg","jy","gub","gof","xsm","krs","guw","swc","gym","me","cnh","hui","hlb","her","quc","gbi","gil","kac","gaa","kik","kmb","cab","kab","cjp","cak","kek","cni","cop","kbh","ckb","ksd","quz","kpg","crh","xal","kbo","keo","cki","pss","kle","qxr","rar","kbp","kam","kqn","wes","rw","rn","ln","lg","dop","rmn","ngl","rug","lsi","ond","loz","lua","lub","lun","rnd","lue","gv","mhr","mam","mo","mni","meu","mah","mrw","mdy","mad","mos","muv","lus","mfe","umb","arn","nhg","azb","quh","lnd","fuv","nop","ntm","nyy","niu","nia","nba","nyu","nav","nyk","pcm","pap","pck","ata","pis","tw","chr","chq","cas","cjk","cce","chk","sr","crs","sg","mrj","jiv","swp","ssx","spy","huv","jmc","srm","sxn","seh","kwy","sop","tzo","tig","tmh","tpm","ctd","tyv","iou","tex","lcm","teo","tvl","tll","tgl","tum","toj","ttj","wal","war","ve","wol","udm","ppk","usp","wlx","prk","wsk","wrs","vun","wls","urh","mau","guc","shi","syc","hwc","hmo","lcp","sid","mbb","shp","ssd","gnw","kyu","hil","jac","ace","jv","ikk","izz","pil","jae","yon","zyb","byr","iso","iba","ilo","ibg","yap","cht","dz","ifa","czt","dtp","bcl","tzh","zne"]
         },
+        f: niu,
     },
 };
 
+var api_id = JSON.parse(localStorage.getItem("fanyi")) as typeof t_api_id;
+const t_api_id = {
+    youdao: { appid: "", key: "" },
+    baidu: { appid: "", key: "" },
+    deepl: { key: "" },
+    deeplx: { url: "" },
+    caiyun: { token: "" },
+    bing: { key: "" },
+    chatgpt: { key: "" },
+    niu: { key: "" },
+};
+if (!api_id) {
+    localStorage.setItem("fanyi", JSON.stringify(t_api_id));
+    api_id = t_api_id;
+} else {
+    api_id = Object.assign(t_api_id, api_id);
+    localStorage.setItem("fanyi", JSON.stringify(api_id));
+}
+const trees_mane_el = document.getElementById("tree_mana");
+
+function load_trees() {
+    trees_mane_el.innerHTML = "";
+    let main = document.createElement("div");
+    trees.forEach((tree, i) => {
+        let div = document.createElement("div");
+        let t = document.createElement("span");
+        t.innerText = tree.name;
+        let rename = document.createElement("div");
+        rename.title = "重命名";
+        rename.innerHTML = `<img src="${rename_svg}">`;
+        rename.onclick = () => {
+            tree.name = prompt(tree.name) || tree.name;
+            t.innerText = tree.name;
+            localStorage.setItem("trees", JSON.stringify(trees));
+            reload();
+        };
+        let ex = document.createElement("div");
+        ex.title = "复制到剪贴板";
+        ex.innerHTML = `<img src="${right_svg}">`;
+        ex.onclick = () => {
+            navigator.clipboard.writeText(JSON.stringify(tree));
+        };
+        let rm = document.createElement("div");
+        rm.title = "移除";
+        rm.innerHTML = `<img src="${close_svg}">`;
+        rm.onclick = () => {
+            if (trees.length == 1) return;
+            trees = trees.filter((t) => t != tree);
+            if (trees.length == Number(index)) {
+                index = String(trees.length - 1);
+            }
+            div.remove();
+            localStorage.setItem("trees", JSON.stringify(trees));
+            reload();
+        };
+        div.append(t, rename, ex, rm);
+        main.append(div);
+    });
+    function reload() {
+        change_tree.innerHTML = "";
+        for (let i in trees) {
+            let o = document.createElement("option");
+            o.value = i;
+            o.innerText = trees[i].name;
+            change_tree.append(o);
+            change_tree.load();
+        }
+        change_tree.value = index;
+    }
+    trees_mane_el.append(main);
+    let im_text = document.createElement("textarea");
+    im_text.placeholder = "粘贴以导入";
+    let add = document.createElement("div");
+    add.title = "确认导入";
+    add.classList.add("import_tree_b");
+    add.innerHTML = `<img src="${yes_svg}">`;
+    add.onclick = () => {
+        let t: { name: string; tree: item_type[] };
+        try {
+            t = JSON.parse(im_text.value);
+            trees.push(t);
+            localStorage.setItem("trees", JSON.stringify(trees));
+            reload();
+            load_trees();
+        } catch (error) {}
+        im_text.value = "";
+    };
+    trees_mane_el.append(im_text, add);
+}
+
+const config_el = document.getElementById("密码");
+const delay_el = document.getElementById("延时") as HTMLInputElement;
+
+function load_setting() {
+    load_trees();
+    config_el.innerHTML = `<h2>密码</h2>`;
+    for (let i in engine_config) {
+        let div = document.createElement("div");
+        let name = document.createElement("h3");
+        let help = document.createElement("p");
+        let helpa = document.createElement("a");
+
+        name.innerText = engine_config[i].t;
+        div.append(name);
+        if (engine_config[i].help) {
+            helpa.href = engine_config[i].help.src;
+            helpa.target = "_blank";
+            helpa.innerText = engine_config[i].help.text;
+            help.append(helpa);
+            div.append(help);
+        }
+
+        for (let k of engine_config[i].key) {
+            let x = document.createElement("div");
+            let n = document.createElement("span");
+            let input = document.createElement("input");
+            n.innerText = k.text || k.name;
+            input.value = api_id[i][k.name];
+            input.onchange = () => {
+                api_id[i][k.name] = input.value;
+            };
+            x.append(n, input);
+            div.append(x);
+        }
+        config_el.append(div);
+    }
+    delay_el.value = localStorage.getItem("delay") || "1";
+}
+load_setting();
+
+function save_setting() {
+    localStorage.setItem("fanyi", JSON.stringify(api_id));
+    localStorage.setItem("delay", delay_el.value);
+    setting.classList.add("setting_hide");
+}
+
+const setting = document.getElementById("设置");
+document.getElementById("exit_setting").onclick = () => {
+    setting.classList.add("setting_hide");
+    save_setting();
+};
+document.getElementById("show_setting").onclick = () => {
+    setting.classList.remove("setting_hide");
+    load_setting();
+};
+document.getElementById("down_setting").onclick = () => {
+    let a = document.createElement("a");
+    let blob = new Blob([JSON.stringify(JSON.parse(localStorage.getItem("fanyi")), null, 4)]);
+    a.download = `eSearch-translator-key.json`;
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    URL.revokeObjectURL(String(blob));
+};
+document.getElementById("up_setting").onclick = () => {
+    let file = document.createElement("input");
+    file.type = "file";
+    file.click();
+    file.oninput = () => {
+        let reader = new FileReader();
+        reader.onload = () => {
+            localStorage.setItem("fanyi", <string>reader.result);
+            load_setting();
+        };
+        reader.readAsText(file.files[0]);
+    };
+};
+
+const textarea = document.querySelector("textarea");
+textarea.value = text || "";
+
+textarea.oninput = () => {
+    text = textarea.value;
+    translate(text);
+};
+
+document.getElementById("clear").onclick = () => {
+    textarea.value = "";
+    textarea.focus();
+};
+
+var language = "zh-Hans";
+
 function to_e_lan(lan: string, e: string) {
-    return o[e].lan2lan[lan] || lan;
+    return engine_config[e].lan2lan[lan] || lan;
 }
 
 const lan = {
@@ -1162,9 +1208,9 @@ class item extends HTMLElement {
         this.from = document.createElement("e-select") as select;
         this.to = document.createElement("e-select") as select;
 
-        for (let i in o) {
+        for (let i in engine_config) {
             let op = document.createElement("div");
-            op.innerHTML = `<img src="${o[i].icon}" style="width:1.4em">`;
+            op.innerHTML = `<img src="${engine_config[i].icon}" style="width:1.4em">`;
             op.style.padding = "0.25em";
             op.setAttribute("value", i);
             this.t.append(op);
@@ -1239,7 +1285,7 @@ class item extends HTMLElement {
             this.from.load();
             this.to.innerHTML = "";
             this.to.load();
-            for (let i of o[this.t.value].lan) {
+            for (let i of engine_config[this.t.value].lan) {
                 let o = document.createElement("option");
                 o.value = i;
                 if (!lan[i]) {
@@ -1251,7 +1297,7 @@ class item extends HTMLElement {
                 this.from.append(o);
                 this.from.load();
             }
-            for (let i of o[this.t.value].target_lang || o[this.t.value].lan) {
+            for (let i of engine_config[this.t.value].target_lang || engine_config[this.t.value].lan) {
                 let o = document.createElement("option");
                 o.value = i;
                 o.innerText = lan[i][language];
@@ -1285,7 +1331,7 @@ class item extends HTMLElement {
 
     set from_lan(t: string) {
         let has_lan = false;
-        for (let i in o[this.t.value].lan) {
+        for (let i in engine_config[this.t.value].lan) {
             if (i == t) {
                 has_lan = true;
                 break;
@@ -1444,36 +1490,12 @@ translate(text);
 
 function engine(e: string, text: string, from: string, to: string) {
     return new Promise((re: (text: string) => void, rj) => {
-        switch (e) {
-            case "youdao":
-                youdao(text, from, to).then(re).catch(rj);
-                break;
-            case "baidu":
-                baidu(text, from, to).then(re).catch(rj);
-                break;
-            case "deepl":
-                deepl(text, from, to).then(re).catch(rj);
-                break;
-            case "deeplx":
-                deeplx(text, from, to).then(re).catch(rj);
-                break;
-            case "caiyun":
-                caiyun(text, from, to).then(re).catch(rj);
-                break;
-            case "bing":
-                bing(text, from, to).then(re).catch(rj);
-                break;
-            case "chatgpt":
-                chatgpt(text, from, to).then(re).catch(rj);
-                break;
-            case "niu":
-                niu(text, from, to).then(re).catch(rj);
-                break;
-            default:
-                rj(() => {
-                    console.error("引擎不存在");
-                });
-                break;
+        if (engine_config[e]) {
+            engine_config[e].f(text, from, to).then(re).catch(rj);
+        } else {
+            rj(() => {
+                console.error("引擎不存在");
+            });
         }
     });
 }
@@ -1661,7 +1683,7 @@ function chatgpt(text: string, from: string, to: string) {
 
 function niu(text: string, from: string, to: string) {
     return new Promise((re: (text: string) => void, rj) => {
-        if (!api_id.chatgpt.key) return;
+        if (!api_id.niu.key) return;
         const data = {
             from: from,
             to: to,
