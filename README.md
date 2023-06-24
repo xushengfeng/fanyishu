@@ -17,8 +17,13 @@
 -   [x] 必应
 -   [x] 彩云
 -   [x] deepl
+-   [x] deeplx
+-   [x] chatgpt
+-   [x] 小牛
 -   [ ] 谷歌
 -   [ ] Yandex
+-   [ ] 腾讯
+-   [ ] 火山
 -   [ ] 离线
 
 url search 参数
