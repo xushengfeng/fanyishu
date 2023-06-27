@@ -1360,7 +1360,13 @@ class item extends HTMLElement {
 
     set text(t: string) {
         let e = this.t.value;
-        engine(e, t, to_e_lan(this.from.value, e), to_e_lan(this.to.value, e))
+        // super_e 允许外部更改引擎
+        ((window["super_e"] as (e: string, text: string, from: string, to: string) => Promise<string>) || engine)(
+            e,
+            t,
+            to_e_lan(this.from.value, e),
+            to_e_lan(this.to.value, e)
+        )
             .then((v) => {
                 console.log(v);
                 this.c.querySelectorAll(":scope > e-translator").forEach((el: item) => {
