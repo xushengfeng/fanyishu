@@ -887,157 +887,17 @@ document.getElementById("clear").onclick = () => {
     textarea.focus();
 };
 
-var language = "zh-Hans";
-
 function to_e_lan(lan: string, e: string) {
     return engine_config[e].lan2lan[lan] || lan;
 }
 
-const lan = {
-    auto: { "zh-Hans": "自动" },
-    zh: { "zh-Hans": "中文" },
-    "zh-Hans": { "zh-Hans": "简体中文" },
-    "zh-Hant": { "zh-Hans": "繁体中文" },
-    en: { "zh-Hans": "英语" },
-    "en-Gb": { "zh-Hans": "英语（英国）" },
-    "en-Us": { "zh-Hans": "英语（美国）" },
-    yue: { "zh-Hans": "粤语" },
-    lzh: { "zh-Hans": "文言文" },
-    as: { "zh-Hans": "阿萨姆语" },
-    ba: { "zh-Hans": "巴什基尔语" },
-    bo: { "zh-Hans": "藏语" },
-    dv: { "zh-Hans": "迪维希语" },
-    fil: { "zh-Hans": "菲律宾语" },
-    fo: { "zh-Hans": "法罗语" },
-    "fr-CA": { "zh-Hans": "法语 (加拿大)" },
-    hsb: { "zh-Hans": "上索布语" },
-    ikt: { "zh-Hans": "Inuinnaqtun" },
-    iu: { "zh-Hans": "因纽特语" },
-    "iu-Latn": { "zh-Hans": "Inuktitut (Latin)" },
-    kmr: { "zh-Hans": "库尔德语 (北)" },
-    ko: { "zh-Hans": "韩语" },
-    "mn-Cyrl": { "zh-Hans": "西里尔蒙古文" },
-    "mn-Mong": { "zh-Hans": "传统蒙文" },
-    nb: { "zh-Hans": "书面挪威语" },
-    or: { "zh-Hans": "奥里亚语" },
-    prs: { "zh-Hans": "达里语" },
-    ti: { "zh-Hans": "提格利尼亚语" },
-    tk: { "zh-Hans": "土库曼语" },
-    "tlh-Latn": { "zh-Hans": "克林贡语 (拉丁文)" },
-    "tlh-Piqd": { "zh-Hans": "克林贡语 (pIqaD)" },
-    tt: { "zh-Hans": "鞑靼语" },
-    ug: { "zh-Hans": "维吾尔语" },
-    ja: { "zh-Hans": "日语" },
-    "ko-Kr": { "zh-Hans": "韩语" },
-    fr: { "zh-Hans": "法语" },
-    es: { "zh-Hans": "西班牙语" },
-    th: { "zh-Hans": "泰语" },
-    ar: { "zh-Hans": "阿拉伯语" },
-    ru: { "zh-Hans": "俄语" },
-    pt: { "zh-Hans": "葡萄牙语" },
-    "pt-Br": { "zh-Hans": "葡萄牙语（巴西）" },
-    "pt-PT": { "zh-Hans": "葡萄牙语（不包括巴西葡萄牙语）" },
-    de: { "zh-Hans": "德语" },
-    it: { "zh-Hans": "意大利语" },
-    el: { "zh-Hans": "希腊语" },
-    nl: { "zh-Hans": "荷兰语" },
-    pl: { "zh-Hans": "波兰语" },
-    bg: { "zh-Hans": "保加利亚语" },
-    et: { "zh-Hans": "爱沙尼亚语" },
-    da: { "zh-Hans": "丹麦语" },
-    fi: { "zh-Hans": "芬兰语" },
-    cs: { "zh-Hans": "捷克语" },
-    ro: { "zh-Hans": "罗马尼亚语" },
-    sl: { "zh-Hans": "斯洛文尼亚语" },
-    sv: { "zh-Hans": "瑞典语" },
-    hu: { "zh-Hans": "匈牙利语" },
-    vi: { "zh-Hans": "越南语" },
-    id: { "zh-Hans": "印尼文" },
-    af: { "zh-Hans": "南非荷兰语" },
-    bs: { "zh-Hans": "波斯尼亚语" },
-    ca: { "zh-Hans": "加泰隆语" },
-    hr: { "zh-Hans": "克罗地亚语" },
-    fj: { "zh-Hans": "斐济语" },
-    ht: { "zh-Hans": "海地克里奥尔语" },
-    he: { "zh-Hans": "希伯来语" },
-    hi: { "zh-Hans": "印地语" },
-    mww: { "zh-Hans": "白苗语" },
-    sw: { "zh-Hans": "斯瓦希里语" },
-    tlh: { "zh-Hans": "克林贡语" },
-    lv: { "zh-Hans": "拉脱维亚语" },
-    lt: { "zh-Hans": "立陶宛语" },
-    ms: { "zh-Hans": "马来语" },
-    mt: { "zh-Hans": "马耳他语" },
-    no: { "zh-Hans": "挪威语" },
-    fa: { "zh-Hans": "波斯语" },
-    otq: { "zh-Hans": "克雷塔罗奥托米语" },
-    "sr-Cyrl": { "zh-Hans": "塞尔维亚语(西里尔文)" },
-    "sr-Latn": { "zh-Hans": "塞尔维亚语(拉丁文)" },
-    sk: { "zh-Hans": "斯洛伐克语" },
-    ty: { "zh-Hans": "塔希提语" },
-    to: { "zh-Hans": "汤加语" },
-    tr: { "zh-Hans": "土耳其语" },
-    uk: { "zh-Hans": "乌克兰语" },
-    ur: { "zh-Hans": "乌尔都语" },
-    cy: { "zh-Hans": "威尔士语" },
-    yua: { "zh-Hans": "尤卡坦玛雅语" },
-    sq: { "zh-Hans": "阿尔巴尼亚语" },
-    am: { "zh-Hans": "阿姆哈拉语" },
-    hy: { "zh-Hans": "亚美尼亚语" },
-    az: { "zh-Hans": "阿塞拜疆语" },
-    bn: { "zh-Hans": "孟加拉语" },
-    eu: { "zh-Hans": "巴斯克语" },
-    be: { "zh-Hans": "白俄罗斯语" },
-    ceb: { "zh-Hans": "宿务语" },
-    co: { "zh-Hans": "科西嘉语" },
-    eo: { "zh-Hans": "世界语" },
-    tl: { "zh-Hans": "菲律宾语" },
-    fy: { "zh-Hans": "弗里西语" },
-    gl: { "zh-Hans": "加利西亚语" },
-    ka: { "zh-Hans": "格鲁吉亚语" },
-    gu: { "zh-Hans": "古吉拉特语" },
-    ha: { "zh-Hans": "豪萨语" },
-    haw: { "zh-Hans": "夏威夷语" },
-    is: { "zh-Hans": "冰岛语" },
-    ig: { "zh-Hans": "伊博语" },
-    ga: { "zh-Hans": "爱尔兰语" },
-    jw: { "zh-Hans": "爪哇语" },
-    kn: { "zh-Hans": "卡纳达语" },
-    kk: { "zh-Hans": "哈萨克语" },
-    km: { "zh-Hans": "高棉语" },
-    ku: { "zh-Hans": "库尔德语" },
-    ky: { "zh-Hans": "柯尔克孜语" },
-    lo: { "zh-Hans": "老挝语" },
-    la: { "zh-Hans": "拉丁语" },
-    lb: { "zh-Hans": "卢森堡语" },
-    mk: { "zh-Hans": "马其顿语" },
-    mg: { "zh-Hans": "马尔加什语" },
-    ml: { "zh-Hans": "马拉雅拉姆语" },
-    mi: { "zh-Hans": "毛利语" },
-    mr: { "zh-Hans": "马拉地语" },
-    mn: { "zh-Hans": "蒙古语" },
-    my: { "zh-Hans": "缅甸语" },
-    ne: { "zh-Hans": "尼泊尔语" },
-    ny: { "zh-Hans": "齐切瓦语" },
-    ps: { "zh-Hans": "普什图语" },
-    pa: { "zh-Hans": "旁遮普语" },
-    sm: { "zh-Hans": "萨摩亚语" },
-    gd: { "zh-Hans": "苏格兰盖尔语" },
-    st: { "zh-Hans": "塞索托语" },
-    sn: { "zh-Hans": "修纳语" },
-    sd: { "zh-Hans": "信德语" },
-    si: { "zh-Hans": "僧伽罗语" },
-    so: { "zh-Hans": "索马里语" },
-    su: { "zh-Hans": "巽他语" },
-    tg: { "zh-Hans": "塔吉克语" },
-    ta: { "zh-Hans": "泰米尔语" },
-    te: { "zh-Hans": "泰卢固语" },
-    uz: { "zh-Hans": "乌兹别克语" },
-    xh: { "zh-Hans": "南非科萨语" },
-    yi: { "zh-Hans": "意第绪语" },
-    yo: { "zh-Hans": "约鲁巴语" },
-    zu: { "zh-Hans": "南非祖鲁语" },
-} as { [lan: string]: { "zh-Hans": string } };
+let languageName = new Intl.DisplayNames(navigator.language, { type: "language" });
+const lan = (l: string) => {
+    if (l === "auto") {
+        return "*";
+    }
+    return languageName.of(l);
+};
 
 function uuid() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -1285,22 +1145,24 @@ class item extends HTMLElement {
             this.from.load();
             this.to.innerHTML = "";
             this.to.load();
-            for (let i of engine_config[this.t.value].lan) {
+            let xLan = engine_config[this.t.value].lan.map((i) => lan(i));
+            xLan.sort(new Intl.Collator(navigator.language).compare);
+            let xTLan: string[] = null;
+            if (engine_config[this.t.value].target_lang) {
+                xTLan = engine_config[this.t.value].target_lang.map((i) => lan(i));
+                xTLan.sort(new Intl.Collator(navigator.language).compare);
+            }
+            for (let i of xLan) {
                 let o = document.createElement("option");
                 o.value = i;
-                if (!lan[i]) {
-                    console.log(i);
-                    continue;
-                }
-
-                o.innerText = lan[i][language];
+                o.innerText = i;
                 this.from.append(o);
                 this.from.load();
             }
-            for (let i of engine_config[this.t.value].target_lang || engine_config[this.t.value].lan) {
+            for (let i of xTLan || xLan) {
                 let o = document.createElement("option");
                 o.value = i;
-                o.innerText = lan[i][language];
+                o.innerText = i;
                 if (i != "auto") {
                     this.to.append(o.cloneNode(true));
                     this.to.load();
@@ -1662,7 +1524,7 @@ function chatgpt(text: string, from: string, to: string) {
     return new Promise((re: (text: string) => void, rj) => {
         if (!api_id.chatgpt.key) return;
         let systemPrompt = "You are a translation engine that can only translate text and cannot interpret it.";
-        let userPrompt = `翻译成${lan[to]["zh-Hans"]}:\n\n${text}`;
+        let userPrompt = `翻译成${lan(to)}:\n\n${text}`;
         fetch(`https://api.openai.com/v1/chat/completions`, {
             method: "POST",
             headers: { Authorization: `Bearer ${api_id.chatgpt.key}`, "content-type": "application/json" },
