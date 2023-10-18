@@ -1145,25 +1145,29 @@ class item extends HTMLElement {
             this.from.load();
             this.to.innerHTML = "";
             this.to.load();
-            let xLan = engine_config[this.t.value].lan.map((i) => lan(i));
-            xLan.sort(new Intl.Collator(navigator.language).compare);
-            let xTLan: string[] = null;
+            let xLan = engine_config[this.t.value].lan.map((i) => {
+                return { lan: i, text: lan(i) };
+            });
+            xLan.sort((a, b) => new Intl.Collator(navigator.language).compare(a.text, b.text));
+            let xTLan: { lan: string; text: string }[] = null;
             if (engine_config[this.t.value].target_lang) {
-                xTLan = engine_config[this.t.value].target_lang.map((i) => lan(i));
-                xTLan.sort(new Intl.Collator(navigator.language).compare);
+                xTLan = engine_config[this.t.value].target_lang.map((i) => {
+                    return { lan: i, text: lan(i) };
+                });
+                xTLan.sort((a, b) => new Intl.Collator(navigator.language).compare(a.text, b.text));
             }
             for (let i of xLan) {
                 let o = document.createElement("option");
-                o.value = i;
-                o.innerText = i;
+                o.value = i.lan;
+                o.innerText = i.text;
                 this.from.append(o);
                 this.from.load();
             }
             for (let i of xTLan || xLan) {
                 let o = document.createElement("option");
-                o.value = i;
-                o.innerText = i;
-                if (i != "auto") {
+                o.value = i.lan;
+                o.innerText = i.text;
+                if (i.lan != "auto") {
                     this.to.append(o.cloneNode(true));
                     this.to.load();
                 }
