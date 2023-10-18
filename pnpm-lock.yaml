@@ -15,8 +15,8 @@ dependencies:
     specifier: ^1.2.3
     version: 1.2.3
   xtranslator:
-    specifier: ^1.0.1
-    version: 1.0.1
+    specifier: ^1.0.2
+    version: 1.0.2
 
 devDependencies:
   autoprefixer:
@@ -816,8 +816,8 @@ packages:
     engines: {node: '>=0.4'}
     dev: true
 
-  /xtranslator@1.0.1:
-    resolution: {integrity: sha512-2m+Y3k6V2ID4bhSkLAJImJNSBfsNm9bhCRHbllPHiqqR4uMqjVZubPOtPwlTjW1KTjXyKeArTKYfRnUtAblZIA==}
+  /xtranslator@1.0.2:
+    resolution: {integrity: sha512-MMrO6TpGPYc32M+713e4c9XOoR4Df3JBQByW8Ltz/8CbD6oYJyNLxx6p92FSZs0fVTFIfLG8Vthg3FdJ7CbunA==}
     dependencies:
       blueimp-md5: 2.19.0
       crypto-js: 4.1.1
