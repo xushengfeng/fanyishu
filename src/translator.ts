@@ -3,6 +3,7 @@ import "../css/css.css";
 import translator from "xtranslator";
 
 type Engines = keyof typeof translator.e;
+type language = (typeof translator.e)[Engines]["lan"][number];
 
 import rename_svg from "../assets/icons/rename.svg";
 import close_svg from "../assets/icons/close.svg";
@@ -534,6 +535,19 @@ class item extends HTMLElement {
         return this.t.value as Engines;
     }
 
+    motherLanFirst(lanList: { lan: language; text: string }[]) {
+        for (let l of navigator.languages.toReversed()) {
+            for (let i in lanList) {
+                if (lanList[i].lan === l) {
+                    // 移动到首
+                    lanList.unshift(lanList.splice(Number(i), 1)[0]);
+                    break;
+                }
+            }
+        }
+        return lanList;
+    }
+
     reload_lan() {
         if (this.t.value) {
             const from_lan = this.from.value;
@@ -545,12 +559,14 @@ class item extends HTMLElement {
                 return { lan: i, text: lan(i) };
             });
             xLan.sort((a, b) => new Intl.Collator(navigator.language).compare(a.text, b.text));
-            let xTLan: { lan: string; text: string }[] = null;
+            xLan = this.motherLanFirst(xLan);
+            let xTLan: { lan: language; text: string }[] = null;
             if (translator.e[this.getTV()].targetLan) {
                 xTLan = translator.e[this.getTV()].targetLan.map((i) => {
                     return { lan: i, text: lan(i) };
                 });
                 xTLan.sort((a, b) => new Intl.Collator(navigator.language).compare(a.text, b.text));
+                xTLan = this.motherLanFirst(xTLan);
             }
             for (let i of xLan) {
                 let o = document.createElement("option");
