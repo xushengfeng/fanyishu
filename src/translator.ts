@@ -89,7 +89,7 @@ let engine_config: Partial<
     chatgpt: {
         t: "chatgpt",
         icon: chatgpt_svg,
-        key: [{ name: "key" }],
+        key: [{ name: "key" }, { name: "url" }, { name: "config", text: "请求体自定义" }],
         help: { text: "chatgpt api申请", src: "https://platform.openai.com/account/api-keys" },
     },
     niu: {
@@ -108,7 +108,7 @@ const t_api_id = {
     deeplx: { url: "" },
     caiyun: { token: "" },
     bing: { key: "" },
-    chatgpt: { key: "" },
+    chatgpt: { key: "", url: "", config: "" },
     niu: { key: "" },
 };
 if (!api_id) {
@@ -217,7 +217,7 @@ function load_setting() {
             let n = document.createElement("span");
             let input = document.createElement("input");
             n.innerText = k.text || k.name;
-            input.value = api_id[i][k.name];
+            input.value = api_id[i][k.name] || "";
             input.onchange = () => {
                 api_id[i][k.name] = input.value;
             };
