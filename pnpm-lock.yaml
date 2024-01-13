@@ -15,8 +15,8 @@ dependencies:
     specifier: ^1.2.3
     version: 1.2.3
   xtranslator:
-    specifier: ^1.0.2
-    version: 1.0.2
+    specifier: ^1.0.4
+    version: 1.0.4
 
 devDependencies:
   autoprefixer:
@@ -29,8 +29,8 @@ devDependencies:
     specifier: ^3.1.8
     version: 3.1.8(postcss@8.4.17)
   typescript:
-    specifier: ^4.8.2
-    version: 4.8.4
+    specifier: ^5.3.3
+    version: 5.3.3
   vite:
     specifier: ^3.0.9
     version: 3.1.4
@@ -763,9 +763,9 @@ packages:
       is-number: 7.0.0
     dev: true
 
-  /typescript@4.8.4:
-    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
-    engines: {node: '>=4.2.0'}
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: true
 
@@ -816,8 +816,8 @@ packages:
     engines: {node: '>=0.4'}
     dev: true
 
-  /xtranslator@1.0.2:
-    resolution: {integrity: sha512-MMrO6TpGPYc32M+713e4c9XOoR4Df3JBQByW8Ltz/8CbD6oYJyNLxx6p92FSZs0fVTFIfLG8Vthg3FdJ7CbunA==}
+  /xtranslator@1.0.4:
+    resolution: {integrity: sha512-Ie4gyZB66R7y5hOeiGujfhJNPFz+Y7kDk8gbORmUAzwj6OinDGGy9JcxGqP0vH2YxIk4YGM9F11+LxvCH+lg0g==}
     dependencies:
       blueimp-md5: 2.19.0
       crypto-js: 4.1.1
