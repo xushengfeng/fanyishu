@@ -17,6 +17,7 @@ import bing_svg from "../assets/other/bing.svg";
 import deepl_svg from "../assets/other/deepl.svg";
 import caiyun_svg from "../assets/other/caiyun.svg";
 import chatgpt_svg from "../assets/other/chatgpt.svg";
+import gemini_svg from "../assets/other/gemini.svg";
 import niu_svg from "../assets/other/niu.svg";
 
 const s = new URLSearchParams(decodeURIComponent(location.search));
@@ -92,6 +93,12 @@ let engine_config: Partial<
         key: [{ name: "key" }, { name: "url" }, { name: "config", text: "请求体自定义" }],
         help: { text: "chatgpt api申请", src: "https://platform.openai.com/account/api-keys" },
     },
+    gemini: {
+        t: "Gemini",
+        icon: gemini_svg,
+        key: [{ name: "key" }, { name: "url" }, { name: "config", text: "请求体自定义" }],
+        help: { text: "Gemini api申请", src: "https://ai.google.dev/" },
+    },
     niu: {
         t: "小牛翻译",
         icon: niu_svg,
@@ -109,6 +116,7 @@ const t_api_id = {
     caiyun: { token: "" },
     bing: { key: "" },
     chatgpt: { key: "", url: "", config: "" },
+    gemini: { key: "", url: "", config: "" },
     niu: { key: "" },
 };
 if (!api_id) {

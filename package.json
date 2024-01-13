@@ -18,7 +18,7 @@
     "blueimp-md5": "^2.19.0",
     "crypto-js": "^4.1.1",
     "fetch-jsonp": "^1.2.3",
-    "xtranslator": "^1.0.4"
+    "xtranslator": "^1.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",
