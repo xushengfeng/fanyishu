@@ -668,7 +668,7 @@ class item extends HTMLElement {
                 this.set_zt("o");
 
                 if (!this.c.querySelector("e-translator")) {
-                    texts.push({ i: this.getBoundingClientRect().y, text: v });
+                    texts.push({ el: this, i: this.getBoundingClientRect().y, text: v });
                     show_translate();
                 }
             })
@@ -720,7 +720,7 @@ function get_item(id: string) {
 
 let t_time = NaN;
 
-let texts: { i: number; text: string }[] = [];
+let texts: { el: item; i: number; text: string }[] = [];
 
 function translate(text: string) {
     if (!text) {
@@ -752,6 +752,13 @@ function show_translate() {
             navigator.clipboard.writeText(i.text);
         };
         div.append(copy);
+        const HIGIHTLIGHT = "hightlight";
+        div.onmouseenter = () => {
+            i.el.classList.add(HIGIHTLIGHT);
+        };
+        div.onmouseleave = () => {
+            i.el.classList.remove(HIGIHTLIGHT);
+        };
         text_result.append(div);
     }
 }

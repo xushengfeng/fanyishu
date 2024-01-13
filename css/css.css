@@ -236,6 +236,9 @@ e-select {
     @apply flex flex-col gap-2 overflow-y-auto p-2;
     grid-area: 2 / 2 / 3 / 3;
 }
+.hightlight > :nth-child(1) {
+    @apply border-green-400 transition;
+}
 #text > div {
     @apply border-2 p-2 rounded-lg relative;
 }
