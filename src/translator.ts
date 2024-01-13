@@ -608,16 +608,6 @@ class item extends HTMLElement {
     }
 
     set from_lan(t: string) {
-        let has_lan = false;
-        for (let i in translator.e[this.t.value as "bing"].lan) {
-            if (i == t) {
-                has_lan = true;
-                break;
-            }
-        }
-        if (!has_lan) {
-            this.from.classList.add("waring");
-        }
         this.from.value = t;
         this.check_from();
     }
@@ -627,7 +617,8 @@ class item extends HTMLElement {
         if (
             this.parentElement != document.getElementById("translators") &&
             t != "auto" &&
-            t != (this.parentElement.parentElement as item).to.value
+            (t != (this.parentElement.parentElement as item).to.value ||
+                t.split("-")[0] != (this.parentElement.parentElement as item).to.value.split("-")[0])
         ) {
             this.from.classList.add("waring");
         } else {
