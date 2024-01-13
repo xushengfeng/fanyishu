@@ -115,7 +115,7 @@ const t_api_id = {
     deeplx: { url: "" },
     caiyun: { token: "" },
     bing: { key: "" },
-    chatgpt: { key: "", url: "https://api.openai.com/v1/chat/completions", config: "{}" },
+    chatgpt: { key: "", url: "https://api.openai.com/v1/chat/completions", config: '{"model": "gpt-3.5-turbo"}' },
     gemini: {
         key: "",
         url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
