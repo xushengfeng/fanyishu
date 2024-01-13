@@ -115,15 +115,30 @@ const t_api_id = {
     deeplx: { url: "" },
     caiyun: { token: "" },
     bing: { key: "" },
-    chatgpt: { key: "", url: "", config: "" },
-    gemini: { key: "", url: "", config: "" },
+    chatgpt: { key: "", url: "https://api.openai.com/v1/chat/completions", config: "{}" },
+    gemini: {
+        key: "",
+        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+        config: "{}",
+    },
     niu: { key: "" },
 };
 if (!api_id) {
     localStorage.setItem("fanyi", JSON.stringify(t_api_id));
     api_id = t_api_id;
 } else {
-    api_id = Object.assign(t_api_id, api_id);
+    for (let key in t_api_id) {
+        if (!api_id[key]) {
+            api_id[key] = t_api_id[key];
+        }
+    }
+    for (let key in t_api_id) {
+        for (let key2 in t_api_id[key]) {
+            if (!api_id[key][key2]) {
+                api_id[key][key2] = t_api_id?.[key]?.[key2] || "";
+            }
+        }
+    }
     localStorage.setItem("fanyi", JSON.stringify(api_id));
 }
 const trees_mane_el = document.getElementById("tree_mana");
