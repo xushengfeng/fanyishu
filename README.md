@@ -32,6 +32,8 @@ url search 参数
 | text | 文本 |
 | m | 树的名称 |
 
+本库实现了界面，核心实现在 [xtranslator](https://github.com/xushengfeng/xtranslator)
+
 **在使用之前，你需要申请相关语言的 api id，请在设置中查看官方文档**
 
 ![fanyishu0](https://esearch-app.netlify.app/readme/fanyishu0.webp)
