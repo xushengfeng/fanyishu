@@ -88,10 +88,10 @@ let engine_config: Partial<
         },
     },
     chatgpt: {
-        t: "chatgpt",
+        t: "ChatGPT",
         icon: chatgpt_svg,
         key: [{ name: "key" }, { name: "url" }, { name: "config", text: "请求体自定义" }],
-        help: { text: "chatgpt api申请", src: "https://platform.openai.com/account/api-keys" },
+        help: { text: "ChatGPT api申请", src: "https://platform.openai.com/account/api-keys" },
     },
     gemini: {
         t: "Gemini",
